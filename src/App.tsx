@@ -1,7 +1,8 @@
 import React from 'react';
 
+import MainContainer from './containers/mainContainer';
 function App() {
-  return <h1>안녕하세요</h1>;
+  return <MainContainer />;
 }
 
 export default App;
