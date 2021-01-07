@@ -22,9 +22,9 @@ const MainLayout = ({ children }: Props) => {
     <>
       <header>
         <div>
-          {/* <a href="./main" target="_self">
-            <img src={logo} alt="유튜브 로고" className={styles.logo} />
-          </a> */}
+          <a href="./main" target="_self">
+            FLOW
+          </a>
         </div>
         <div>
           <input
