@@ -1,14 +1,10 @@
 import React from 'react';
 
 //components
-import Mainlayout from '../../layouts/mainLayout';
+// import { MainLayout } from '../../layouts';
 
-const MainContainer = () => {
-  return (
-    <Mainlayout>
-      <div>컨텐츠</div>
-    </Mainlayout>
-  );
+export const MainContainer = () => {
+  return <div>컨텐츠</div>;
 };
 
-export default MainContainer;
+// export default MainContainer;
