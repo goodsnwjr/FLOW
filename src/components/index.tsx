@@ -1,2 +1,2 @@
 export * from './sideNave';
-export * from './MainBox';
+export * from './mainBox';
