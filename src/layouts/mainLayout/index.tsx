@@ -17,14 +17,15 @@ interface Props {
   children: JSX.Element;
 }
 
-const MainLayout = ({ children }: Props) => {
+export const MainLayout = ({ children }: Props) => {
   return (
     <>
       <header>
         <div>
-          <a href="./main" target="_self">
-            FLOW
-          </a>
+          <h2>게시글 등록</h2>
+          {/* <a href="./main" target="_self">
+            <img src={logo} alt="유튜브 로고" className={styles.logo} />
+          </a> */}
         </div>
         <div>
           <input
@@ -57,4 +58,4 @@ const MainLayout = ({ children }: Props) => {
   );
 };
 
-export default MainLayout;
+// export default MainLayout;
