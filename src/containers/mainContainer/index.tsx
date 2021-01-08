@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 //components
-// import { MainLayout } from '../../layouts';
+import MainBox from '../../components/mainBox';
+
+const checkFavorit = () => {};
 
 export const MainContainer = () => {
-  return <div>컨텐츠</div>;
+  return <MainBox />;
 };
 
 // export default MainContainer;

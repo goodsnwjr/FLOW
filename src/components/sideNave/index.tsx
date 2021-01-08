@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 //modules
 import {
@@ -19,7 +19,7 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
-import { Menu, Button } from 'antd';
+import { Menu, Button, Modal } from 'antd';
 
 const SideStyle = styled.div`
   width: 11rem;
@@ -33,11 +33,53 @@ const SideStyle = styled.div`
     border: none;
   }
 `;
+
 const SideNave = () => {
+  const [newProject, setNewProject] = useState<string>('');
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const newProjrct = () => {
+    setIsModalVisible(false);
+    const numRandom = Math.random();
+    const projectList = JSON.parse(localStorage.project);
+    projectList.push({
+      id: projectList.length + 1,
+      title: newProject,
+      people: Math.floor(numRandom * 100),
+      favorites: false,
+    });
+    localStorage.setItem('project', JSON.stringify(projectList));
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const favoritesProject = () => {};
+
   return (
     <SideStyle>
       <div style={{ textAlign: 'center', marginTop: '1rem' }}>
-        <Button> + 새 프로젝트</Button>
+        <Button onClick={showModal}> + 새 프로젝트</Button>
+        <Modal
+          title="새 프로젝트 추가"
+          visible={isModalVisible}
+          onOk={newProjrct}
+          onCancel={handleCancel}
+        >
+          <input
+            onChange={(e) => {
+              setNewProject(e.target.value);
+            }}
+            className="project"
+            type="text"
+            placeholder="프로젝트명"
+          />
+        </Modal>
       </div>
       <Menu>
         <Menu.Item>
@@ -52,7 +94,7 @@ const SideNave = () => {
           <FontAwesomeIcon icon={faEnvelope} />
           읽지않음
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item onClick={favoritesProject}>
           <FontAwesomeIcon icon={faStar} />
           즐겨찾기
         </Menu.Item>

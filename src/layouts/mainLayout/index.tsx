@@ -1,6 +1,4 @@
-import React from 'react';
-
-//assets
+import React, { useState } from 'react';
 
 //components
 import SideNav from '../../components/sideNave';
@@ -13,7 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
-import { Layout, Menu } from 'antd';
+import { Layout } from 'antd';
 const { Header, Content } = Layout;
 
 interface Props {
@@ -71,8 +69,10 @@ export const MainLayout = ({ children }: Props) => {
         </ul>
       </HeaderStyle>
       <Layout>
-        <SideNav />
-        <Content>{children}</Content>
+        <Content style={{ display: 'flex' }}>
+          <SideNav />
+          {children}
+        </Content>
       </Layout>
     </>
   );
