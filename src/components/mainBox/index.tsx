@@ -19,7 +19,6 @@ const MainBox = () => {
     <>
       {project &&
         Object.values(project).map((items, index) => {
-          console.log(items.title);
           return (
             <div key={items.id}>
               <h1>{items.title}</h1>
