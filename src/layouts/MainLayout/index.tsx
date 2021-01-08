@@ -78,4 +78,4 @@ export const MainLayout = ({ children }: Props) => {
   );
 };
 
-// export default MainLayout;
+export default MainLayout;

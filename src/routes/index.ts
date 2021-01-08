@@ -1,6 +1,7 @@
 import * as paths from './const';
 
-import * as pages from 'pages';
+import mainPage from '../pages/main';
+import contentPage from '../pages/content';
 
 interface RoutesName {
   main: RoutesOption[];
@@ -16,13 +17,13 @@ export const routes: RoutesName = {
   main: [
     {
       path: paths.ROUTE_ROOT,
-      component: pages.main,
+      component: mainPage,
     },
   ],
   content: [
     {
       path: paths.ROUTE_CONTENT,
-      component: pages.content,
+      component: contentPage,
     },
   ],
 };

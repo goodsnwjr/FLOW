@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 //modules
 import {
@@ -20,6 +21,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import { Menu, Button, Modal } from 'antd';
+import { add, menuChange, selectProjects } from 'modules/slices/projectsSlice';
 
 const SideStyle = styled.div`
   width: 11rem;
@@ -37,29 +39,42 @@ const SideStyle = styled.div`
 const SideNave = () => {
   const [newProject, setNewProject] = useState<string>('');
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const projectsList = useSelector(selectProjects);
+
+  const dispatch = useDispatch();
 
   const showModal = () => {
     setIsModalVisible(true);
-  };
-
-  const newProjrct = () => {
-    setIsModalVisible(false);
-    const numRandom = Math.random();
-    const projectList = JSON.parse(localStorage.project);
-    projectList.push({
-      id: projectList.length + 1,
-      title: newProject,
-      people: Math.floor(numRandom * 100),
-      favorites: false,
-    });
-    localStorage.setItem('project', JSON.stringify(projectList));
   };
 
   const handleCancel = () => {
     setIsModalVisible(false);
   };
 
-  const favoritesProject = () => {};
+  const newProjrct = () => {
+    setIsModalVisible(false);
+    const numRandom = Math.random();
+    // const projectList = JSON.parse(localStorage.project);
+    const newProjectList = [...projectsList];
+
+    newProjectList.push({
+      id: Math.floor(numRandom * 1000),
+      title: newProject,
+      people: Math.floor(numRandom * 100),
+      favorites: false,
+    });
+
+    dispatch(add(newProjectList));
+    // localStorage.setItem('project', JSON.stringify(projectList));
+  };
+
+  const onChangeMenuAll = () => {
+    dispatch(menuChange('all'));
+  };
+
+  const onChangeMenuFav = () => {
+    dispatch(menuChange('fav'));
+  };
 
   return (
     <SideStyle>
@@ -82,7 +97,7 @@ const SideNave = () => {
         </Modal>
       </div>
       <Menu>
-        <Menu.Item>
+        <Menu.Item onClick={onChangeMenuAll}>
           <FontAwesomeIcon icon={faBars} />
           전체
         </Menu.Item>
@@ -94,7 +109,7 @@ const SideNave = () => {
           <FontAwesomeIcon icon={faEnvelope} />
           읽지않음
         </Menu.Item>
-        <Menu.Item onClick={favoritesProject}>
+        <Menu.Item onClick={onChangeMenuFav}>
           <FontAwesomeIcon icon={faStar} />
           즐겨찾기
         </Menu.Item>
