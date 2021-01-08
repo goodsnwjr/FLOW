@@ -17,7 +17,7 @@ interface Props {
   children: JSX.Element;
 }
 
-export const MainLayout = ({ children }: Props) => {
+const MainLayout = ({ children }: Props) => {
   return (
     <>
       <header>
@@ -58,4 +58,4 @@ export const MainLayout = ({ children }: Props) => {
   );
 };
 
-// export default MainLayout;
+export default MainLayout;

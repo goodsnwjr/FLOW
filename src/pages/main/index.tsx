@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { MainLayout } from 'layouts';
+import MainLayout from '../../layouts/mainLayout';
 
-import { MainContainer } from 'containers';
+import MainContainer from '../../containers/mainContainer';
 
-export const main = () => {
+const main = () => {
   return (
     <MainLayout>
       {/* <h2>게시글 등록</h2> */}
@@ -13,4 +13,4 @@ export const main = () => {
   );
 };
 
-// export default main;
+export default main;

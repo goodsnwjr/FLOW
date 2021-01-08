@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { main, content } from 'pages';
+import mainPage from './pages/main';
+import contentPage from './pages/content';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { routes } from 'routes';
@@ -45,8 +46,8 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path={routes.main[0].path} component={main} exact />;
-        <Route path={routes.content[0].path} component={content} exact />;
+        <Route path={routes.main[0].path} component={mainPage} exact />;
+        <Route path={routes.content[0].path} component={contentPage} exact />;
       </Switch>
     </BrowserRouter>
   );
