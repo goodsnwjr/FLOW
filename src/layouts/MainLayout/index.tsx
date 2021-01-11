@@ -40,7 +40,7 @@ const HeaderStyle = styled(Header)`
   }
 `;
 
-export const MainLayout = ({ children }: Props) => {
+const MainLayout = ({ children }: Props) => {
   return (
     <>
       <HeaderStyle>
