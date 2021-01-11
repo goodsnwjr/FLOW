@@ -56,7 +56,7 @@ const menuSlice = createSlice({
 });
 
 export const { menuChange } = menuSlice.actions;
-export const selectMenu = (state: any) => state.projects.onMenu;
+export const selectMenu = (state: any) => state.menu.onMenu;
 
 export default configureStore({
   reducer: { projects: projectsSlice.reducer, menu: menuSlice.reducer },
