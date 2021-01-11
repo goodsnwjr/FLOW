@@ -6,8 +6,6 @@ import contentPage from './pages/content';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { routes } from 'routes';
-import { useSelector } from 'react-redux';
-import { selectProjects } from 'modules/slices/projectsSlice';
 
 function App() {
   // const projects = useSelector(state => state.products);

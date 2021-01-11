@@ -1,6 +1,6 @@
 import React from 'react';
 
-import MainLayout from '../../layouts/mainLayout';
+import { MainLayout } from 'layouts';
 
 const content = () => {
   return (
