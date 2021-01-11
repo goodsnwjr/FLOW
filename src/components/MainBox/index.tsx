@@ -120,7 +120,9 @@ export const MainBox = ({
                 >
                   X
                 </p>
-                <h3>{items.title}</h3>
+                <Link to={`${items.id}`}>
+                  <h3>{items.title}</h3>
+                </Link>
                 <p>{items.people}명 참여중</p>
                 <FavoritesProjectStyle
                   style={{
