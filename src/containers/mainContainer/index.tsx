@@ -16,14 +16,10 @@ export const MainContainer = () => {
       return item.id !== Number(e.target.parentNode.getAttribute('data-id'));
     });
 
-    console.log(removeProjectList);
     dispatch(remove(removeProjectList));
   };
   return (
-    <MainBox
-      removeProject={removeProject}
-      checkFavorit={(e) => checkFavorit(e, projectsList, dispatch, favorite)}
-    />
+    <MainBox removeProject={removeProject} checkFavorit={(e) => checkFavorit(e, projectsList, dispatch, favorite)} />
   );
 };
 

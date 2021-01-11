@@ -45,10 +45,7 @@ const FavoritesProjectStyle = styled(FontAwesomeIcon)`
   margin-right: 10px;
 `;
 
-export const MainBox = ({
-  removeProject,
-  checkFavorit,
-}: removeProjectProps) => {
+export const MainBox = ({ removeProject, checkFavorit }: removeProjectProps) => {
   const itemBoxWrapper = useRef<any>();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [thisProject, setThisProject] = useState<any>();
@@ -100,11 +97,7 @@ export const MainBox = ({
                   ref={itemBoxWrapper}
                   data-id={items.id}
                 >
-                  <p
-                    style={{ textAlign: 'right', lineHeight: '16px' }}
-                    onClick={(e) => showModal(e)}
-                    ref={removeRef}
-                  >
+                  <p style={{ textAlign: 'right', lineHeight: '16px' }} onClick={(e) => showModal(e)} ref={removeRef}>
                     X
                   </p>
                   <Modal
@@ -116,7 +109,7 @@ export const MainBox = ({
                   <Link to={`${items.id}`}>
                     <h3>{items.title}</h3>
                   </Link>
-                  <p>{items.people}명 참여중</p>
+                  <p>{items.people.length}명 참여중</p>
                   <FavoritesProjectStyle
                     style={{
                       color: items.favorites === true ? 'yellow' : 'black',
@@ -142,16 +135,19 @@ export const MainBox = ({
                 ref={itemBoxWrapper}
                 data-id={items.id}
               >
-                <p
-                  style={{ textAlign: 'right', lineHeight: '16px' }}
-                  onClick={(e) => removeProject(e)}
-                >
+                <p style={{ textAlign: 'right', lineHeight: '16px' }} onClick={(e) => showModal(e)} ref={removeRef}>
                   X
                 </p>
+                <Modal
+                  title="프로젝트를 삭제 하시겠습니까?"
+                  visible={isModalVisible}
+                  onOk={removeCancel}
+                  onCancel={handleCancel}
+                ></Modal>
                 <Link to={`${items.id}`}>
                   <h3>{items.title}</h3>
                 </Link>
-                <p>{items.people}명 참여중</p>
+                <p>{items.people.length}명 참여중</p>
                 <FavoritesProjectStyle
                   style={{
                     color: items.favorites === true ? 'yellow' : 'black',

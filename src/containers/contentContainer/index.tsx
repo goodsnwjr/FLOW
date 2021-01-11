@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router';
-import { useSelector } from 'react-redux';
-import { selectProjects } from 'store';
+import { useDispatch, useSelector } from 'react-redux';
+import { favorite, selectProjects } from 'store';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +10,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 //components
 import { Tabs } from 'antd';
 import { ContentChart, ContentTicket, ContentAside } from 'components';
+import { checkFavorit } from 'modules/project/favoriteProject';
 
 const { TabPane } = Tabs;
 
@@ -25,8 +26,12 @@ const ContentStyle = styled.div`
 
   .project-title {
     background: #fff;
-    pdding: 5px;
-    text-align: center;
+    padding: 20px 10px;
+    text-align: left;
+    h2 {
+      line-height: 1;
+      margin: 0;
+    }
   }
 `;
 const FavoritesProjectStyle = styled(FontAwesomeIcon)`
@@ -39,6 +44,8 @@ const ContentBox = styled.div`
   padding: 20px;
   box-sizing: border-box;
   border-radius: 10px;
+  background: #fff;
+  margin-top: 5px;
 `;
 
 function callback(key: any) {
@@ -46,6 +53,8 @@ function callback(key: any) {
 }
 
 const ContentContainer = () => {
+  const projectsList = useSelector(selectProjects);
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const productList = useSelector(selectProjects);
@@ -62,16 +71,16 @@ const ContentContainer = () => {
     <ContentStyle>
       <div>
         <div className="project-title">
-          <h2>
+          <h2 data-id={selectProject.id}>
             <FavoritesProjectStyle
               style={{
                 color: selectProject.favorites === true ? 'yellow' : 'black',
               }}
               className="favorites-project"
               icon={faStar}
-              // onClick={(e) => checkFavorit(e)}
+              onClick={(e) => checkFavorit(e, projectsList, dispatch, favorite)}
             ></FavoritesProjectStyle>
-            {selectProject.title}({selectProject.people})
+            {selectProject.title}({selectProject.people.length})
           </h2>
         </div>
         <ContentBox>
@@ -79,14 +88,11 @@ const ContentContainer = () => {
         </ContentBox>
         <ContentBox>
           <Tabs defaultActiveKey="1" onChange={callback}>
-            <TabPane tab="Tab 1" key="1">
+            <TabPane tab="글쓰기" key="1">
               Content of Tab Pane 1
             </TabPane>
-            <TabPane tab="Tab 2" key="2">
+            <TabPane tab="할 일" key="2">
               Content of Tab Pane 2
-            </TabPane>
-            <TabPane tab="Tab 3" key="3">
-              Content of Tab Pane 3
             </TabPane>
           </Tabs>
         </ContentBox>
@@ -94,7 +100,7 @@ const ContentContainer = () => {
           <h4>상단고정글</h4>
           <ul>
             <li>
-              [업무] B2B매거진 대리점현황 요류 <span>진행</span>
+              [업무] B2B매거진 대리점현황 오류 <span>진행</span>
             </li>
           </ul>
         </ContentBox>
@@ -102,7 +108,7 @@ const ContentContainer = () => {
           <ContentTicket />
         </ContentBox>
       </div>
-      <ContentAside />
+      {/* <ContentAside selectProject={selectProject} /> */}
     </ContentStyle>
   );
 };
