@@ -2,9 +2,12 @@ import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectMenu, selectProjects } from 'store';
 import { Link } from 'react-router-dom';
+
+import { Modal } from 'antd';
+
 // interface favoritesProps {
 //   favorites: boolean;
 //   setFavorites: Dispatch<SetStateAction<boolean>>;
@@ -47,8 +50,11 @@ export const MainBox = ({
   checkFavorit,
 }: removeProjectProps) => {
   const itemBoxWrapper = useRef<any>();
-  const [title, setTitle] = useState<string>('');
-  const [project, setProject] = useState<projectItem[]>([]);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [thisProject, setThisProject] = useState<any>();
+
+  const removeRef = useRef<any>();
+
   const color = [
     'mistyrose',
     'skyblue',
@@ -65,6 +71,21 @@ export const MainBox = ({
   const productList = useSelector(selectProjects);
   const menu = useSelector(selectMenu);
 
+  const showModal = (e: any) => {
+    setIsModalVisible(true);
+    setThisProject(e);
+  };
+
+  const removeCancel = () => {
+    removeProject(thisProject);
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  console.log(removeRef);
   return (
     <ItemStyle>
       {menu === 'all' ? (
@@ -81,10 +102,17 @@ export const MainBox = ({
                 >
                   <p
                     style={{ textAlign: 'right', lineHeight: '16px' }}
-                    onClick={(e) => removeProject(e)}
+                    onClick={(e) => showModal(e)}
+                    ref={removeRef}
                   >
                     X
                   </p>
+                  <Modal
+                    title="프로젝트를 삭제 하시겠습니까?"
+                    visible={isModalVisible}
+                    onOk={removeCancel}
+                    onCancel={handleCancel}
+                  ></Modal>
                   <Link to={`${items.id}`}>
                     <h3>{items.title}</h3>
                   </Link>
@@ -120,7 +148,9 @@ export const MainBox = ({
                 >
                   X
                 </p>
-                <h3>{items.title}</h3>
+                <Link to={`${items.id}`}>
+                  <h3>{items.title}</h3>
+                </Link>
                 <p>{items.people}명 참여중</p>
                 <FavoritesProjectStyle
                   style={{

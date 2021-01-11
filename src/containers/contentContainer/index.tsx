@@ -15,7 +15,7 @@ const { TabPane } = Tabs;
 
 const ContentStyle = styled.div`
   display: flex;
-  width: 100%;
+
   > div:nth-child(1) {
     width: 60%;
   }
