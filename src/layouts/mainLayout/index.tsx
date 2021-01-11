@@ -4,11 +4,7 @@ import React from 'react';
 import { SideNav } from 'components';
 
 //modules
-import {
-  faBell,
-  faUserCircle,
-  faComment,
-} from '@fortawesome/free-solid-svg-icons';
+import { faBell, faUserCircle, faComment } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import { Layout } from 'antd';
@@ -80,12 +76,7 @@ const MainLayout = ({ children }: Props) => {
             {selectProject.title}
           </h3>
         )}
-        <input
-          type="test"
-          name="search_video"
-          id="search_video"
-          placeholder="검색"
-        />
+        <input type="test" name="search_video" id="search_video" placeholder="검색" />
         <ul>
           <li>
             <p>서비스 업그레이드</p>
@@ -101,8 +92,8 @@ const MainLayout = ({ children }: Props) => {
           </li>
         </ul>
       </HeaderStyle>
-      <Layout>
-        <Content style={{ display: 'flex' }}>
+      <Layout style={{ display: 'block' }}>
+        <Content style={{ display: 'grid', gridTemplateColumns: '20% 80%', width: '100%' }}>
           <SideNav />
           {children}
         </Content>

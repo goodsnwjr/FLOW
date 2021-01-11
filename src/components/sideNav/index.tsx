@@ -12,19 +12,15 @@ import {
   faChalkboardTeacher,
   faEyeSlash,
 } from '@fortawesome/free-solid-svg-icons';
-import {
-  faEnvelope,
-  faCalendar,
-  faBookmark,
-  faFolder,
-} from '@fortawesome/free-regular-svg-icons';
+import { faEnvelope, faCalendar, faBookmark, faFolder } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import { Menu, Button, Modal } from 'antd';
 import { add, menuChange, selectProjects } from 'store';
 
 const SideStyle = styled.div`
-  width: 11rem;
+  width: 20%;
+  min-width: 11rem;
   display: inline-block;
   border-right: 1px solid gray;
   padding: 10px 20px;
@@ -80,12 +76,7 @@ export const SideNav = () => {
     <SideStyle>
       <div style={{ textAlign: 'center', marginTop: '1rem' }}>
         <Button onClick={showModal}> + 새 프로젝트</Button>
-        <Modal
-          title="새 프로젝트 추가"
-          visible={isModalVisible}
-          onOk={newProjrct}
-          onCancel={handleCancel}
-        >
+        <Modal title="새 프로젝트 추가" visible={isModalVisible} onOk={newProjrct} onCancel={handleCancel}>
           <input
             onChange={(e) => {
               setNewProject(e.target.value);
