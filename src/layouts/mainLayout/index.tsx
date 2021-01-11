@@ -12,6 +12,9 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import { Layout } from 'antd';
+import { Link, useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectProjects } from 'store';
 const { Header, Content } = Layout;
 
 interface Props {
@@ -27,6 +30,7 @@ const HeaderStyle = styled(Header)`
     width: 50%;
     margin-left: 30px;
     height: 60px;
+    padding-left: 110px;
   }
   ul {
     display: flex;
@@ -41,12 +45,41 @@ const HeaderStyle = styled(Header)`
 `;
 
 const MainLayout = ({ children }: Props) => {
+  const history = useHistory();
+
+  const productList = useSelector(selectProjects);
+
+  function findProject(productList: any) {
+    return productList.id === Number(history.location.pathname.split('/')[1]);
+  }
+
+  const selectProject = productList.find(findProject);
+  console.log(productList);
   return (
     <>
       <HeaderStyle>
-        <a href="./main" target="_self">
-          FLOW
-        </a>
+        <Link to="/">FLOW</Link>
+        {selectProject && (
+          <h3
+            style={{
+              position: 'absolute',
+              width: 100,
+              height: 45,
+              top: 0,
+              marginLeft: 80,
+              marginTop: 9,
+              lineHeight: '41px',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              border: '1px solid black',
+              borderRadius: 5,
+              backgroundColor: 'skyblue',
+            }}
+          >
+            {selectProject.title}
+          </h3>
+        )}
         <input
           type="test"
           name="search_video"
