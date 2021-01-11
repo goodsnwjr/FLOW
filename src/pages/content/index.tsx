@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router';
 import { useSelector } from 'react-redux';
-import { selectProjects } from 'modules/slices/projectsSlice';
+import { selectProjects } from 'store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 
