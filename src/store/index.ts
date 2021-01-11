@@ -37,17 +37,27 @@ const projectsSlice = createSlice({
     favorite: (state, action) => {
       state.projectList = action.payload;
     },
+  },
+});
+
+export const { add, remove, favorite } = projectsSlice.actions;
+export const selectProjects = (state: any) => state.projects.projectList;
+
+const menuSlice = createSlice({
+  name: 'menu',
+  initialState: {
+    onMenu: 'all',
+  },
+  reducers: {
     menuChange: (state, action) => {
       state.onMenu = action.payload;
     },
   },
 });
 
-export const { add, remove, favorite, menuChange } = projectsSlice.actions;
-
-export const selectProjects = (state: any) => state.projects.projectList;
+export const { menuChange } = menuSlice.actions;
 export const selectMenu = (state: any) => state.projects.onMenu;
 
-// export default projectsSlice.reducer;
-
-export default configureStore({ reducer: { projects: projectsSlice.reducer } });
+export default configureStore({
+  reducer: { projects: projectsSlice.reducer, menu: menuSlice.reducer },
+});

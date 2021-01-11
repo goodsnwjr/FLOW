@@ -1,8 +1,8 @@
 import React from 'react';
 
-import MainLayout from '../../layouts/mainLayout';
+import { MainLayout } from 'layouts';
 
-import MainContainer from '../../containers/mainContainer';
+import { MainContainer } from 'containers';
 
 const Main = () => {
   return (

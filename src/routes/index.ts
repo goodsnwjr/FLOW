@@ -1,7 +1,6 @@
 import * as paths from './const';
 
-import MainPage from '../pages/main';
-import ContentPage from '../pages/content';
+import { MainPage, ContentPage } from '../pages';
 
 interface RoutesName {
   main: RoutesOption[];

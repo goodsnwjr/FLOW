@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux';
-import { selectMenu, selectProjects } from 'modules/slices/projectsSlice';
+import { selectMenu, selectProjects } from 'store';
 // interface favoritesProps {
 //   favorites: boolean;
 //   setFavorites: Dispatch<SetStateAction<boolean>>;
@@ -41,7 +41,10 @@ const FavoritesProjectStyle = styled(FontAwesomeIcon)`
   margin-right: 10px;
 `;
 
-const MainBox = ({ removeProject, checkFavorit }: removeProjectProps) => {
+export const MainBox = ({
+  removeProject,
+  checkFavorit,
+}: removeProjectProps) => {
   const itemBoxWrapper = useRef<any>();
   const [title, setTitle] = useState<string>('');
   const [project, setProject] = useState<projectItem[]>([]);
@@ -131,5 +134,3 @@ const MainBox = ({ removeProject, checkFavorit }: removeProjectProps) => {
     </ItemStyle>
   );
 };
-
-export default MainBox;

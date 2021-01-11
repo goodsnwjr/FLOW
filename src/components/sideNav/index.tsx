@@ -21,7 +21,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import { Menu, Button, Modal } from 'antd';
-import { add, menuChange, selectProjects } from 'modules/slices/projectsSlice';
+import { add, menuChange, selectProjects } from 'store';
 
 const SideStyle = styled.div`
   width: 11rem;
@@ -36,7 +36,7 @@ const SideStyle = styled.div`
   }
 `;
 
-const SideNave = () => {
+export const SideNav = () => {
   const [newProject, setNewProject] = useState<string>('');
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const projectsList = useSelector(selectProjects);
@@ -161,5 +161,3 @@ const SideNave = () => {
     </SideStyle>
   );
 };
-
-export default SideNave;
