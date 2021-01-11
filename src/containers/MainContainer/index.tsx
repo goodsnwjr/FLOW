@@ -5,7 +5,7 @@ import { remove, favorite, selectProjects } from 'modules/slices/projectsSlice';
 //components
 import MainBox from '../../components/mainBox';
 
-export const MainContainer = () => {
+const MainContainer = () => {
   const projectsList = useSelector(selectProjects);
   const dispatch = useDispatch();
 
