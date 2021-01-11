@@ -4,7 +4,7 @@ import { MainLayout } from 'layouts';
 
 import { MainContainer } from 'containers';
 
-export const main = () => {
+const Main = () => {
   return (
     <MainLayout>
       {/* <h2>게시글 등록</h2> */}
@@ -13,4 +13,4 @@ export const main = () => {
   );
 };
 
-// export default main;
+export default Main;

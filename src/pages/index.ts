@@ -1,2 +1,2 @@
-export * from './main';
-export * from './content';
+export { default as ContentPage } from './content';
+export { default as MainPage } from './main';
