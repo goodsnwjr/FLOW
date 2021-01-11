@@ -7,19 +7,46 @@ const projectsSlice = createSlice({
       {
         id: 135232,
         title: '[SI] 현대캐피탈-신차영업팀',
-        people: 21,
+        people: [
+          {
+            name: '이현성',
+            auth: 'admin',
+          },
+          {
+            name: '임은정',
+            auth: 'admin',
+          },
+        ],
         favorites: false,
       },
       {
         id: 263632,
         title: '[아이엠폼] 공지',
-        people: 81,
+        people: [
+          {
+            name: '이현성',
+            auth: 'admin',
+          },
+          {
+            name: '임은정',
+            auth: 'admin',
+          },
+        ],
         favorites: false,
       },
       {
         id: 313627,
         title: '[IMS] 통합 관리',
-        people: 25,
+        people: [
+          {
+            name: '이현성',
+            auth: 'admin',
+          },
+          {
+            name: '임은정',
+            auth: 'admin',
+          },
+        ],
         favorites: false,
       },
     ],
