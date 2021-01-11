@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { Link } from 'react-router-dom';
 //modules
 import {
   faBars,
@@ -98,7 +98,9 @@ export const SideNav = () => {
       </div>
       <Menu>
         <Menu.Item onClick={onChangeMenuAll}>
-          <FontAwesomeIcon icon={faBars} />
+          <Link to="/">
+            <FontAwesomeIcon icon={faBars} />
+          </Link>
           전체
         </Menu.Item>
         <Menu.Item>
@@ -110,8 +112,10 @@ export const SideNav = () => {
           읽지않음
         </Menu.Item>
         <Menu.Item onClick={onChangeMenuFav}>
-          <FontAwesomeIcon icon={faStar} />
-          즐겨찾기
+          <Link to="/">
+            <FontAwesomeIcon icon={faStar} />
+            즐겨찾기
+          </Link>
         </Menu.Item>
       </Menu>
       <Menu>
