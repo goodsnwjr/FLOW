@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { remove, favorite, selectProjects } from 'modules/slices/projectsSlice';
+import { remove, favorite, selectProjects } from 'store';
 
 //components
-import MainBox from '../../components/mainBox';
+import { MainBox } from 'components';
 
-export const MainContainer = () => {
+const MainContainer = () => {
   const projectsList = useSelector(selectProjects);
   const dispatch = useDispatch();
 

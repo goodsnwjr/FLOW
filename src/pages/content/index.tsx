@@ -6,7 +6,7 @@ import { selectProjects } from 'modules/slices/projectsSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 
-import MainLayout from '../../layouts/mainLayout';
+import { MainLayout } from 'layouts';
 
 const FavoritesProjectStyle = styled(FontAwesomeIcon)`
   color: block;

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 //components
-import SideNav from '../../components/sideNave';
+import { SideNav } from 'components';
 
 //modules
 import {
@@ -40,7 +40,7 @@ const HeaderStyle = styled(Header)`
   }
 `;
 
-export const MainLayout = ({ children }: Props) => {
+const MainLayout = ({ children }: Props) => {
   return (
     <>
       <HeaderStyle>
