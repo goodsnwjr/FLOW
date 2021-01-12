@@ -91,12 +91,7 @@ export const MainBox = ({ removeProject, checkFavorit }: removeProjectProps) => 
             projectList.map((items: any, index: any) => {
               console.log(items.favorites);
               return (
-                <ItemBoxStyle
-                  key={items.id}
-                  color={color[Math.floor(Math.random() * 10)]}
-                  ref={itemBoxWrapper}
-                  data-id={items.id}
-                >
+                <ItemBoxStyle key={items.id} color={color[index]} ref={itemBoxWrapper} data-id={items.id}>
                   <p style={{ textAlign: 'right', lineHeight: '16px' }} onClick={(e) => showModal(e)} ref={removeRef}>
                     X
                   </p>
@@ -106,7 +101,7 @@ export const MainBox = ({ removeProject, checkFavorit }: removeProjectProps) => 
                     onOk={removeCancel}
                     onCancel={handleCancel}
                   ></Modal>
-                  <Link to={`${items.id}`}>
+                  <Link to={`${items.id}?${color[index]}`}>
                     <h3>{items.title}</h3>
                   </Link>
                   <p>{items.participants.length}명 참여중</p>

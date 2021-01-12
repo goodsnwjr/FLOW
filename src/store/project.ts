@@ -50,6 +50,7 @@ const projectsSlice = createSlice({
         favorites: false,
       },
     ],
+    onsdsd: '',
   },
   reducers: {
     add: (state, action) => {
