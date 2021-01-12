@@ -56,7 +56,7 @@ export const SideNav = () => {
     newProjectList.push({
       id: Math.floor(numRandom * 1000),
       title: newProject,
-      people: [],
+      participants: [],
       favorites: false,
     });
 

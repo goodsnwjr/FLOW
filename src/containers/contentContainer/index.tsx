@@ -2,22 +2,20 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { update, favorite, selectProjects } from 'store';
+import { update, favorite, selectProjects, writeContent } from 'store';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 //components
-import { Tabs } from 'antd';
 import { ContentChart, ContentTicket, ContentAside } from 'components';
 import { checkFavorit } from 'modules/project/favoriteProject';
-
-const { TabPane } = Tabs;
+import { ContentWrite } from 'components/contentWrite';
 
 const ContentStyle = styled.div`
-display: flex;
-padding: 20px 20px;
-box-sizing: border-box;
+  display: flex;
+  padding: 20px 20px;
+  box-sizing: border-box;
 
   > div:nth-child(1) {
     width: 60%;
@@ -30,6 +28,7 @@ box-sizing: border-box;
     h2 {
       line-height: 1;
       margin: 0;
+    }
   }
 `;
 const FavoritesProjectStyle = styled(FontAwesomeIcon)`
@@ -46,16 +45,12 @@ const ContentBox = styled.div`
   margin-top: 5px;
 `;
 
-function callback(key: any) {
-  //tab
-  console.log(key);
-}
-
 const ContentContainer = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [participantName, setParticipantName] = useState<string>('');
 
   const projectsList = useSelector(selectProjects);
+  const writeList = useSelector(writeContent);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -100,21 +95,14 @@ const ContentContainer = () => {
               icon={faStar}
               onClick={(e) => checkFavorit(e, projectsList, dispatch, favorite)}
             ></FavoritesProjectStyle>
-            {selectProject.title}({selectProject.people.length})
+            {selectProject.title}({selectProject.participants.length})
           </h2>
         </ContentBox>
         <ContentBox>
           <ContentChart />
         </ContentBox>
         <ContentBox>
-          <Tabs defaultActiveKey="1" onChange={callback}>
-            <TabPane tab="글쓰기" key="1">
-              Content of Tab Pane 1
-            </TabPane>
-            <TabPane tab="할 일" key="2">
-              Content of Tab Pane 2
-            </TabPane>
-          </Tabs>
+          <ContentWrite />
         </ContentBox>
         <ContentBox>
           <h4>상단고정글</h4>
@@ -125,6 +113,10 @@ const ContentContainer = () => {
           </ul>
         </ContentBox>
         <ContentBox>
+          {writeList &&
+            writeList.map((item: any) => {
+              return <p>{item.content}</p>;
+            })}
           <ContentTicket />
         </ContentBox>
       </div>

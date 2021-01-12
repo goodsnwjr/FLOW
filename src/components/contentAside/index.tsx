@@ -78,12 +78,12 @@ export const ContentAside = ({
         전체 참여자 {Object.values(selectProject)[2].length}명
         <ul>
           {selectProject &&
-            Object.values(selectProject)[2].map((people: { name: string }, idx: number) => {
-              console.log(people.name);
+            Object.values(selectProject)[2].map((participants: { name: string }, idx: number) => {
+              console.log(participants.name);
               return (
                 <li key={`participant-${idx}`}>
                   <FontAwesomeIcon icon={faUserCircle} style={{ marginRight: 10 }}></FontAwesomeIcon>
-                  {people.name}
+                  {participants.name}
                 </li>
               );
             })}

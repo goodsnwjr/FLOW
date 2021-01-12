@@ -20,7 +20,7 @@ interface removeProjectProps {
 interface projectItem {
   id: number;
   title: string;
-  people: number;
+  participants: number;
 }
 
 const ItemStyle = styled.div`
@@ -65,7 +65,7 @@ export const MainBox = ({ removeProject, checkFavorit }: removeProjectProps) => 
     'cornflowerblue',
   ];
 
-  const productList = useSelector(selectProjects);
+  const projectList = useSelector(selectProjects);
   const menu = useSelector(selectMenu);
 
   const showModal = (e: any) => {
@@ -87,8 +87,8 @@ export const MainBox = ({ removeProject, checkFavorit }: removeProjectProps) => 
     <ItemStyle>
       {menu === 'all' ? (
         <>
-          {productList &&
-            productList.map((items: any, index: any) => {
+          {projectList &&
+            projectList.map((items: any, index: any) => {
               console.log(items.favorites);
               return (
                 <ItemBoxStyle
@@ -109,7 +109,7 @@ export const MainBox = ({ removeProject, checkFavorit }: removeProjectProps) => 
                   <Link to={`${items.id}`}>
                     <h3>{items.title}</h3>
                   </Link>
-                  <p>{items.people.length}명 참여중</p>
+                  <p>{items.participants.length}명 참여중</p>
                   <FavoritesProjectStyle
                     style={{
                       color: items.favorites === true ? 'yellow' : 'black',
@@ -123,7 +123,7 @@ export const MainBox = ({ removeProject, checkFavorit }: removeProjectProps) => 
             })}
         </>
       ) : (
-        productList
+        projectList
           .filter((item: any) => {
             return item.favorites;
           })
@@ -147,7 +147,7 @@ export const MainBox = ({ removeProject, checkFavorit }: removeProjectProps) => 
                 <Link to={`${items.id}`}>
                   <h3>{items.title}</h3>
                 </Link>
-                <p>{items.people.length}명 참여중</p>
+                <p>{items.participants.length}명 참여중</p>
                 <FavoritesProjectStyle
                   style={{
                     color: items.favorites === true ? 'yellow' : 'black',
