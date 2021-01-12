@@ -20,7 +20,7 @@ interface removeProjectProps {
 interface projectItem {
   id: number;
   title: string;
-  people: number;
+  participants: number;
 }
 
 const ItemStyle = styled.div`
@@ -109,7 +109,7 @@ export const MainBox = ({ removeProject, checkFavorit }: removeProjectProps) => 
                   <Link to={`${items.id}`}>
                     <h3>{items.title}</h3>
                   </Link>
-                  <p>{items.people.length}명 참여중</p>
+                  <p>{items.participants.length}명 참여중</p>
                   <FavoritesProjectStyle
                     style={{
                       color: items.favorites === true ? 'yellow' : 'black',
@@ -147,7 +147,7 @@ export const MainBox = ({ removeProject, checkFavorit }: removeProjectProps) => 
                 <Link to={`${items.id}`}>
                   <h3>{items.title}</h3>
                 </Link>
-                <p>{items.people.length}명 참여중</p>
+                <p>{items.participants.length}명 참여중</p>
                 <FavoritesProjectStyle
                   style={{
                     color: items.favorites === true ? 'yellow' : 'black',

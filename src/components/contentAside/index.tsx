@@ -41,10 +41,9 @@ interface contentAsideProps {
   selectProject: object;
   showModal: () => void;
   handleCancel: () => void;
-  addParticipants: (selectProject: { people: [{ name: string; auth: string }] }) => void;
+  addParticipants: () => void;
   isModalVisible: boolean;
   setParticipantName: React.Dispatch<React.SetStateAction<string>>;
-  productList: any;
 }
 
 export const ContentAside = ({
@@ -54,7 +53,6 @@ export const ContentAside = ({
   showModal,
   setParticipantName,
   isModalVisible,
-  productList,
 }: contentAsideProps) => {
   return (
     <div>
@@ -66,12 +64,7 @@ export const ContentAside = ({
           <FontAwesomeIcon icon={faUserPlus} style={{ marginRight: 10 }}></FontAwesomeIcon>참여자 초대하기{' '}
         </h3>
       </ButtonStyle>
-      <Modal
-        title="참여자 추가"
-        visible={isModalVisible}
-        onOk={() => addParticipants(productList)}
-        onCancel={handleCancel}
-      >
+      <Modal title="참여자 추가" visible={isModalVisible} onOk={addParticipants} onCancel={handleCancel}>
         <input
           onChange={(e) => {
             setParticipantName(e.target.value);
@@ -85,12 +78,12 @@ export const ContentAside = ({
         전체 참여자 {Object.values(selectProject)[2].length}명
         <ul>
           {selectProject &&
-            Object.values(selectProject)[2].map((people: { name: string }, idx: number) => {
-              console.log(people.name);
+            Object.values(selectProject)[2].map((participants: { name: string }, idx: number) => {
+              console.log(participants.name);
               return (
                 <li key={`participant-${idx}`}>
                   <FontAwesomeIcon icon={faUserCircle} style={{ marginRight: 10 }}></FontAwesomeIcon>
-                  {people.name}
+                  {participants.name}
                 </li>
               );
             })}

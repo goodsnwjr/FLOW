@@ -8,17 +8,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 //components
-import { Tabs } from 'antd';
 import { ContentChart, ContentTicket, ContentAside } from 'components';
 import { checkFavorit } from 'modules/project/favoriteProject';
 import { ContentWrite } from 'components/contentWrite';
-
-const { TabPane } = Tabs;
 
 const ContentStyle = styled.div`
   display: flex;
   padding: 20px 20px;
   box-sizing: border-box;
+
   > div:nth-child(1) {
     width: 60%;
   }
@@ -71,27 +69,18 @@ const ContentContainer = () => {
     return productList.id === Number(history.location.pathname.split('/')[1]);
   }
 
-  // const addParticipants = (selectProject: { people: [{ name: string; auth: string }] }) => {
-  const addParticipants = (productList: any) => {
-    projectsList.map((people: { id: number; people: [name: any, auth: string] }) => {
-      const itemId = Number(history.location.pathname.split('/')[1]);
-      if (people.id === itemId) {
-        return dispatch(
-          update({
-            people: {
-              name: participantName,
-              auth: '게스트',
-            },
-          })
-        );
-      }
-    });
-    // setIsModalVisible(false);
+  const addParticipants = () => {
+    dispatch(
+      update({
+        projectid: Number(history.location.pathname.split('/')[1]),
+        name: participantName,
+        auth: '게스트',
+      })
+    );
+    setIsModalVisible(false);
   };
 
   const selectProject = productList.find(findProject);
-
-  console.log(selectProject);
 
   return (
     <ContentStyle>
@@ -106,7 +95,7 @@ const ContentContainer = () => {
               icon={faStar}
               onClick={(e) => checkFavorit(e, projectsList, dispatch, favorite)}
             ></FavoritesProjectStyle>
-            {selectProject.title}({selectProject.people.length})
+            {selectProject.title}({selectProject.participants.length})
           </h2>
         </ContentBox>
         <ContentBox>
@@ -124,9 +113,10 @@ const ContentContainer = () => {
           </ul>
         </ContentBox>
         <ContentBox>
-          {writeList.map((item: any) => {
-            return <p>{item.content}</p>;
-          })}
+          {writeList &&
+            writeList.map((item: any) => {
+              return <p>{item.content}</p>;
+            })}
           <ContentTicket />
         </ContentBox>
       </div>
@@ -136,7 +126,6 @@ const ContentContainer = () => {
         handleCancel={handleCancel}
         showModal={showModal}
         isModalVisible={isModalVisible}
-        productList={productList}
         setParticipantName={setParticipantName}
       />
     </ContentStyle>
