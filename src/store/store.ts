@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import menuSliceReducer from './menu';
-import projectSliceReducer from './projrct';
+import projectSliceReducer from './project';
 import writeSliceReducer from './write';
 
 export default configureStore({

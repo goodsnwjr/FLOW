@@ -43,17 +43,30 @@ const Editor = ({ onChange, onSubmit, submitting, value }: editorProps) => (
   </>
 );
 
-interface aa {
+interface commentState {
   comments: Array<{}>;
   submitting: boolean;
   value: string;
 }
+
+interface progressState {
+  type: string;
+  count: number;
+}
 export const ContentTicket = () => {
-  const [comment, setComment] = useState<aa>({
+  const [value, setValue] = useState('request');
+  const [comment, setComment] = useState<commentState>({
     comments: [],
     submitting: false,
     value: '',
   });
+  const [progress, setProgress] = useState<progressState[]>([
+    { type: 'request', count: 0 },
+    { type: 'progress', count: 0 },
+    { type: 'feedback', count: 0 },
+    { type: 'completion', count: 0 },
+    { type: 'pending', count: 0 },
+  ]);
 
   const handleSubmit = () => {
     if (!comment.value) {
@@ -89,6 +102,19 @@ export const ContentTicket = () => {
     });
   };
 
+  const onChange = (e: any) => {
+    console.log('radio checked', e.target.value);
+    console.log(e.target);
+    let target = e.target.value;
+    let checkProgress = progress.map((item: any) => {
+      if (item.type === target) {
+        return { ...progress, count: item.count + 1 };
+      }
+      return item;
+    });
+    setProgress(checkProgress);
+  };
+
   return (
     <>
       <MakeTicket>
@@ -103,7 +129,14 @@ export const ContentTicket = () => {
       </div>
       <div>
         <span>아이콘</span>
-        <Radio.Group name="progress" defaultValue={1}>
+        <Radio.Group name="progress" onChange={onChange} value={value} defaultValue={'request'}>
+          <Radio value={'request'}>요청</Radio>
+          <Radio value={'progress'}>진행</Radio>
+          <Radio value={'feedback'}>피드백</Radio>
+          <Radio value={'completion'}>완료</Radio>
+          <Radio value={'pending'}>보류</Radio>
+        </Radio.Group>
+        <Radio.Group name="progress" onChange={onChange} value={value} defaultValue={'request'}>
           <Radio value={'request'}>요청</Radio>
           <Radio value={'progress'}>진행</Radio>
           <Radio value={'feedback'}>피드백</Radio>
