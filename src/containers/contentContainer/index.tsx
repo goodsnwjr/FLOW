@@ -125,6 +125,10 @@ const ContentContainer = () => {
           })}
         <ContentBox>
           <ContentTicket checkPin={checkPin} />
+          {/* {writeList &&
+            writeList.map((item: any) => {
+              return <p>{item.title}</p>;
+            })} */}
         </ContentBox>
       </div>
       <ContentAside

@@ -78,7 +78,7 @@ export const ContentAside = ({
         전체 참여자 {Object.values(selectProject)[2].length}명
         <ul>
           {selectProject &&
-            Object.values(selectProject)[3].map((participants: { name: string }, idx: number) => {
+            Object.values(selectProject)[2].map((participants: { name: string }, idx: number) => {
               console.log(participants.name);
               return (
                 <li key={`participant-${idx}`}>
