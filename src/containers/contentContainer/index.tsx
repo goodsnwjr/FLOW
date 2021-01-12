@@ -82,6 +82,9 @@ const ContentContainer = () => {
 
   const selectProject = productList.find(findProject);
 
+  const checkPin = () => {
+    //상단고정
+  };
   return (
     <ContentStyle>
       <div>
@@ -121,7 +124,7 @@ const ContentContainer = () => {
             );
           })}
         <ContentBox>
-          <ContentTicket />
+          <ContentTicket checkPin={checkPin} />
         </ContentBox>
       </div>
       <ContentAside

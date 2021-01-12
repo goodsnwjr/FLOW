@@ -7,6 +7,7 @@ const projectsSlice = createSlice({
       {
         id: 135232,
         title: 'title1',
+        mainColor: 'yellow',
         participants: [
           {
             name: '관리자1',
@@ -22,6 +23,7 @@ const projectsSlice = createSlice({
       {
         id: 263632,
         title: 'title2',
+        mainColor: 'pink',
         participants: [
           {
             name: '관리자1',
@@ -37,6 +39,7 @@ const projectsSlice = createSlice({
       {
         id: 313627,
         title: 'title3',
+        mainColor: 'green',
         participants: [
           {
             name: '관리자1',
@@ -50,6 +53,7 @@ const projectsSlice = createSlice({
         favorites: false,
       },
     ],
+    onsdsd: '',
   },
   reducers: {
     add: (state, action) => {
