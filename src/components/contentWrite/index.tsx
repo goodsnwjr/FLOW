@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { writeContent, write, selectProjects } from 'store';
 import { useEffect, useRef, useState } from 'react';
-import { AnyCnameRecord } from 'dns';
+// import { AnyCnameRecord } from 'dns';
 
 const { TabPane } = Tabs;
 const { Option } = Select;

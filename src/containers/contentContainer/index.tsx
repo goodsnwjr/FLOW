@@ -112,11 +112,15 @@ const ContentContainer = () => {
             </li>
           </ul>
         </ContentBox>
+        {writeList &&
+          writeList.map((item: any) => {
+            return (
+              <ContentBox>
+                <p>{item.content}</p>
+              </ContentBox>
+            );
+          })}
         <ContentBox>
-          {writeList &&
-            writeList.map((item: any) => {
-              return <p>{item.content}</p>;
-            })}
           <ContentTicket />
         </ContentBox>
       </div>
