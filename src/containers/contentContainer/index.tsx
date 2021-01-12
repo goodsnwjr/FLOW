@@ -115,7 +115,7 @@ const ContentContainer = () => {
         <ContentBox>
           {writeList &&
             writeList.map((item: any) => {
-              return <p>{item.content}</p>;
+              return <p>{item.title}</p>;
             })}
           <ContentTicket />
         </ContentBox>
