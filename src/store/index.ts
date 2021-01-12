@@ -7,7 +7,7 @@ const projectsSlice = createSlice({
       {
         id: 135232,
         title: 'title1',
-        people: [
+        participants: [
           {
             name: '관리자1',
             auth: 'admin',
@@ -22,7 +22,7 @@ const projectsSlice = createSlice({
       {
         id: 263632,
         title: 'title2',
-        people: [
+        participants: [
           {
             name: '관리자1',
             auth: 'admin',
@@ -37,7 +37,7 @@ const projectsSlice = createSlice({
       {
         id: 313627,
         title: 'title3',
-        people: [
+        participants: [
           {
             name: '관리자1',
             auth: 'admin',
@@ -50,7 +50,6 @@ const projectsSlice = createSlice({
         favorites: false,
       },
     ],
-    onMenu: 'all',
   },
   reducers: {
     add: (state, action) => {
@@ -62,9 +61,11 @@ const projectsSlice = createSlice({
       state.projectList = action.payload;
     },
     update: (state, action) => {
-      console.log(state);
-      console.log(action.payload);
-      state.projectList.concat(action.payload);
+      const { auth, name, projectid } = action.payload;
+      let _projectList = state.projectList.find((x) => x.id === projectid);
+      if (_projectList) {
+        _projectList.participants.push({ name, auth });
+      }
     },
     favorite: (state, action) => {
       state.projectList = action.payload;

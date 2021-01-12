@@ -15,9 +15,10 @@ import { checkFavorit } from 'modules/project/favoriteProject';
 const { TabPane } = Tabs;
 
 const ContentStyle = styled.div`
-  display: flex;
-  padding: 20px 20px;
-  box-sizing: border-box;
+display: flex;
+padding: 20px 20px;
+box-sizing: border-box;
+
   > div:nth-child(1) {
     width: 60%;
   }
@@ -73,27 +74,18 @@ const ContentContainer = () => {
     return productList.id === Number(history.location.pathname.split('/')[1]);
   }
 
-  // const addParticipants = (selectProject: { people: [{ name: string; auth: string }] }) => {
-  const addParticipants = (productList: any) => {
-    projectsList.map((people: { id: number; people: [name: any, auth: string] }) => {
-      const itemId = Number(history.location.pathname.split('/')[1]);
-      if (people.id === itemId) {
-        return dispatch(
-          update({
-            people: {
-              name: participantName,
-              auth: '게스트',
-            },
-          })
-        );
-      }
-    });
-    // setIsModalVisible(false);
+  const addParticipants = () => {
+    dispatch(
+      update({
+        projectid: Number(history.location.pathname.split('/')[1]),
+        name: participantName,
+        auth: '게스트',
+      })
+    );
+    setIsModalVisible(false);
   };
 
   const selectProject = productList.find(findProject);
-
-  console.log(selectProject);
 
   return (
     <ContentStyle>
@@ -142,7 +134,6 @@ const ContentContainer = () => {
         handleCancel={handleCancel}
         showModal={showModal}
         isModalVisible={isModalVisible}
-        productList={productList}
         setParticipantName={setParticipantName}
       />
     </ContentStyle>
