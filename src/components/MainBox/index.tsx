@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectMenu, selectProjects } from 'store';
 import { Link } from 'react-router-dom';
 
@@ -17,11 +17,11 @@ interface removeProjectProps {
   removeProject: (e: any) => void;
   checkFavorit: (e: any) => void;
 }
-interface projectItem {
-  id: number;
-  title: string;
-  participants: number;
-}
+// interface projectItem {
+//   id: number;
+//   title: string;
+//   participants: number;
+// }
 
 const ItemStyle = styled.div`
   display: flex;
