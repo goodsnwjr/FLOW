@@ -37,7 +37,7 @@ interface contentAsideProps {
 export const ContentWrite = ({ selectProjectId, participants }: contentAsideProps) => {
   const [tabStatus, SetTabStatus] = useState<string>('1');
   const [radioValue, setRadioValue] = useState('');
-  const [manager, setManager] = useState('');
+  const [managers, setManagers] = useState('');
   const writeList = useSelector(writeContent);
   const dispatch = useDispatch();
   const writeInputRef = useRef<any>();
@@ -55,7 +55,7 @@ export const ContentWrite = ({ selectProjectId, participants }: contentAsideProp
   }
 
   function handleChange(value: any) {
-    setManager(value);
+    setManagers(value);
   }
 
   const contentAdd = () => {
@@ -73,7 +73,7 @@ export const ContentWrite = ({ selectProjectId, participants }: contentAsideProp
       newWriteList.push({
         title: _workTitleInput,
         status: radioValue,
-        manager: manager,
+        managers: managers,
         content: _workContentInput,
         type: 'work',
         makeTop: false,

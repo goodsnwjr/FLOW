@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Comment, Avatar, Form, Button, List, Input, Radio } from 'antd';
+import { Comment, Avatar, Form, Button, List, Input, Radio, Divider } from 'antd';
 import { CommentProps } from 'antd/lib/comment';
 
-import { faUserCircle, faThumbtack, faHistory } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle, faThumbtack, faHistory, faUserFriends, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const { TextArea } = Input;
 
+const FontAwesomeIconStyle = styled(FontAwesomeIcon)`
+  margin-right: 15px;
+`;
 const MakeTicket = styled.div`
   display: grid;
-  grid-template-columns: 7% 90% 3%;
+  grid-template-columns: 10% 87% 3%;
   > div:nth-child(1) {
     font-size: 2rem;
     vertical-align: middle;
   }
   div:nth-child(2) {
-    justify-self: stratch;
+    padding: 5px 0;
   }
 
   p {
@@ -31,10 +34,12 @@ const TitleArea = styled.div`
     display: inline-block;
   }
 `;
-const RadioBtn = styled(Radio)`
-  border
-`;
 
+const CommonStyle = styled.div``;
+
+const Line = styled(Divider)`
+  margin: 15px 0;
+`;
 interface commentProps {
   comments: any;
 }
@@ -78,23 +83,18 @@ interface progressState {
   count: number;
 }
 interface ContentTicketProps {
+  ticket: any;
   checkPin: () => void;
 }
 
-export const ContentTicket = ({ checkPin }: ContentTicketProps) => {
+export const ContentTicket = ({ ticket, checkPin }: ContentTicketProps) => {
   const [value, setValue] = useState('request');
+  const ticketContent = ticket;
   const [comment, setComment] = useState<commentState>({
     comments: [],
     submitting: false,
     value: '',
   });
-  const [progress, setProgress] = useState<progressState[]>([
-    { type: 'request', count: 0 },
-    { type: 'progress', count: 0 },
-    { type: 'feedback', count: 0 },
-    { type: 'completion', count: 0 },
-    { type: 'pending', count: 0 },
-  ]);
 
   const handleSubmit = () => {
     if (!comment.value) {
@@ -131,17 +131,17 @@ export const ContentTicket = ({ checkPin }: ContentTicketProps) => {
   };
 
   const onChange = (e: any) => {
-    console.log('radio checked', e.target.value);
-    setValue(e.target.value);
-    console.log(e.target);
-    let target = e.target.value;
-    let checkProgress = progress.map((item: any) => {
-      if (item.type === target) {
-        return { ...progress, count: item.count + 1 };
-      }
-      return item;
-    });
-    setProgress(checkProgress);
+    // console.log('radio checked', e.target.value);
+    // setValue(e.target.value);
+    // console.log(e.target);
+    // let target = e.target.value;
+    // let checkProgress = progress.map((item: any) => {
+    //   if (item.type === target) {
+    //     return { ...progress, count: item.count + 1 };
+    //   }
+    //   return item;
+    // });
+    // setProgress(checkProgress);
   };
 
   return (
@@ -157,11 +157,12 @@ export const ContentTicket = ({ checkPin }: ContentTicketProps) => {
         <FontAwesomeIcon icon={faThumbtack} onClick={checkPin}></FontAwesomeIcon>
       </MakeTicket>
       <TitleArea>
-        <h2>B2B매거진</h2> <span> 업무번호 1234</span>
+        <h2>{ticketContent.title}</h2> <span> 업무번호 {ticketContent.id}</span>
       </TitleArea>
+      <Line />
       <div>
-        <FontAwesomeIcon icon={faHistory}></FontAwesomeIcon>
-        <Radio.Group name="progress" buttonStyle="solid" onChange={onChange} value={value} defaultValue={'request'}>
+        <FontAwesomeIconStyle icon={faHistory}></FontAwesomeIconStyle>
+        <Radio.Group name="progress" buttonStyle="solid" onChange={onChange} value={ticketContent.status}>
           <Radio.Button value={'request'}>요청</Radio.Button>
           <Radio.Button value={'progress'}>진행</Radio.Button>
           <Radio.Button value={'feedback'}>피드백</Radio.Button>
@@ -169,12 +170,18 @@ export const ContentTicket = ({ checkPin }: ContentTicketProps) => {
           <Radio.Button value={'pending'}>보류</Radio.Button>
         </Radio.Group>
       </div>
-      <div>업무작성시 연결</div>
-      <div>
-        <span>아이콘 좋아요</span>
-        <span>아이콘 댓글작성</span>
-        <span>아이콘 담아두기</span>
-      </div>
+      <Line />
+      <CommonStyle>
+        <FontAwesomeIconStyle icon={faUserFriends}></FontAwesomeIconStyle>
+        {ticketContent.managers.map((manager: string) => {
+          return <span>{manager}</span>;
+        })}
+      </CommonStyle>
+      <div>{ticketContent.content}</div>
+      <Line />
+      <CommonStyle>
+        <FontAwesomeIconStyle icon={faHeart}></FontAwesomeIconStyle>
+      </CommonStyle>
       <>
         {comment.comments.length > 0 && <CommentList comments={comment.comments} />}
         <Comment

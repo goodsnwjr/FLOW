@@ -116,20 +116,14 @@ const ContentContainer = () => {
           </ul>
         </ContentBox>
         {writeList &&
-          writeList.map((item: any) => {
+          writeList.map((ticket: any) => {
             return (
               <ContentBox>
-                <p>{item.content}</p>
+                <ContentTicket checkPin={checkPin} ticket={ticket} />
               </ContentBox>
             );
           })}
-        <ContentBox>
-          <ContentTicket checkPin={checkPin} />
-          {/* {writeList &&
-            writeList.map((item: any) => {
-              return <p>{item.title}</p>;
-            })} */}
-        </ContentBox>
+        <ContentBox></ContentBox>
       </div>
       <ContentAside
         selectProject={selectProject}
