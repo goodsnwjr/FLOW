@@ -2,12 +2,16 @@ import { Input, Tabs, Button, Radio, Divider, Select } from 'antd';
 import { PaperClipOutlined, FileImageOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { writeContent, write, selectProjects } from 'store';
+import { writeContent, write } from 'store';
 import { useEffect, useRef, useState } from 'react';
+<<<<<<< HEAD
+=======
 // import { AnyCnameRecord } from 'dns';
+>>>>>>> 3bb64a53dc39fddc967a0bb7352941f3080f1c66
 
 const { TabPane } = Tabs;
 const { Option } = Select;
+const { TextArea } = Input;
 
 const WriteInput = styled(Input)`
   border: 0;
@@ -19,7 +23,7 @@ const WorkTitleInput = styled(Input)`
   height: 2rem;
 `;
 
-const WorkContentInput = styled(Input)`
+const WorkContentInput = styled(TextArea)`
   border: 0;
   height: 4rem;
 `;
@@ -36,31 +40,58 @@ interface contentAsideProps {
 
 export const ContentWrite = ({ selectProjectId, participants }: contentAsideProps) => {
   const [tabStatus, SetTabStatus] = useState<string>('1');
+  const [radioValue, setRadioValue] = useState('');
+  const [manager, setManager] = useState('');
   const writeList = useSelector(writeContent);
   const dispatch = useDispatch();
   const writeInputRef = useRef<any>();
   const workTitleInputRef = useRef<any>();
   const workContentInputRef = useRef<any>();
 
-  const projectList = useSelector(selectProjects);
-  console.log(projectList);
-
   function tabChange(key: any) {
-    (key === '1' ? workTitleInputRef : writeInputRef).current.state.value = '';
+    if (key === '1') {
+      workTitleInputRef.current.state.value = '';
+      workContentInputRef.current.state.value = '';
+    } else if (key === '2') {
+      writeInputRef.current.state.value = '';
+    }
     SetTabStatus(key);
   }
 
   function handleChange(value: any) {
-    console.log(`selected ${value}`);
+    setManager(value);
   }
 
-  const contentAdd = (e: any) => {
-    if (!e.current.state.value) return;
+  const contentAdd = () => {
     const newWriteList = [...writeList];
-    newWriteList.push({ content: e.current.state.value });
+    if (tabStatus === '1') {
+      let _writeInput = writeInputRef.current.state.value;
+      if (!_writeInput) return;
+      newWriteList.push({ title: _writeInput, type: 'write', makeTop: false, id: newWriteList.length + 1 });
+      _writeInput = '';
+    } else if (tabStatus === '2') {
+      let _workTitleInput = workTitleInputRef.current.state.value;
+      console.log(workContentInputRef.current.resizableTextArea.props.value);
+      let _workContentInput = workContentInputRef.current.resizableTextArea.props.value;
+      if (!_workTitleInput) return;
+      newWriteList.push({
+        title: _workTitleInput,
+        status: radioValue,
+        manager: manager,
+        content: _workContentInput,
+        type: 'work',
+        makeTop: false,
+        id: newWriteList.length + 1,
+      });
+      _workTitleInput = '';
+      _workContentInput = '';
+    }
     dispatch(write(newWriteList));
-    (tabStatus === '1' ? writeInputRef : workTitleInputRef).current.state.value = '';
   };
+
+  function radioOnChange(e: any) {
+    setRadioValue(e.target.value);
+  }
 
   useEffect(() => {
     writeInputRef.current.state.value = '';
@@ -75,11 +106,13 @@ export const ContentWrite = ({ selectProjectId, participants }: contentAsideProp
         <TabPane tab="업무" key="2">
           <WorkTitleInput placeholder="업무명을 입력하세요" ref={workTitleInputRef} />
           <Line />
-          <Radio value={'request'}>요청</Radio>
-          <Radio value={'progress'}>진행</Radio>
-          <Radio value={'feedback'}>피드백</Radio>
-          <Radio value={'completion'}>완료</Radio>
-          <Radio value={'pending'}>보류</Radio>
+          <Radio.Group name="progress" onChange={(e) => radioOnChange(e)} value={radioValue}>
+            <Radio value={'request'}>요청</Radio>
+            <Radio value={'progress'}>진행</Radio>
+            <Radio value={'feedback'}>피드백</Radio>
+            <Radio value={'completion'}>완료</Radio>
+            <Radio value={'pending'}>보류</Radio>
+          </Radio.Group>
           <Line />
           <Select
             mode="multiple"
@@ -104,10 +137,7 @@ export const ContentWrite = ({ selectProjectId, participants }: contentAsideProp
       </Tabs>
       <PaperClipOutlined style={{ fontSize: 30 }} />
       <FileImageOutlined style={{ fontSize: 30 }} />
-      <Button
-        style={{ float: 'right', backgroundColor: 'red' }}
-        onClick={() => contentAdd(tabStatus === '1' ? writeInputRef : workTitleInputRef)}
-      >
+      <Button style={{ float: 'right', backgroundColor: 'red' }} onClick={contentAdd}>
         올리기
       </Button>
     </>
