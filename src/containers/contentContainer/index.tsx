@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { favorite, selectProjects } from 'store';
+import { update, favorite, selectProjects } from 'store';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
@@ -16,7 +16,8 @@ const { TabPane } = Tabs;
 
 const ContentStyle = styled.div`
   display: flex;
-
+  padding: 20px 20px;
+  box-sizing: border-box;
   > div:nth-child(1) {
     width: 60%;
   }
@@ -25,13 +26,9 @@ const ContentStyle = styled.div`
   }
 
   .project-title {
-    background: #fff;
-    padding: 20px 10px;
-    text-align: left;
     h2 {
       line-height: 1;
       margin: 0;
-    }
   }
 `;
 const FavoritesProjectStyle = styled(FontAwesomeIcon)`
@@ -40,7 +37,7 @@ const FavoritesProjectStyle = styled(FontAwesomeIcon)`
 `;
 
 const ContentBox = styled.div`
-  width: 80%;
+  width: 95%;
   padding: 20px;
   box-sizing: border-box;
   border-radius: 10px;
@@ -49,19 +46,50 @@ const ContentBox = styled.div`
 `;
 
 function callback(key: any) {
+  //tab
   console.log(key);
 }
 
 const ContentContainer = () => {
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [participantName, setParticipantName] = useState<string>('');
+
   const projectsList = useSelector(selectProjects);
+
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   const productList = useSelector(selectProjects);
 
   function findProject(productList: any) {
     return productList.id === Number(history.location.pathname.split('/')[1]);
   }
+
+  // const addParticipants = (selectProject: { people: [{ name: string; auth: string }] }) => {
+  const addParticipants = (productList: any) => {
+    projectsList.map((people: { id: number; people: [name: any, auth: string] }) => {
+      const itemId = Number(history.location.pathname.split('/')[1]);
+      if (people.id === itemId) {
+        return dispatch(
+          update({
+            people: {
+              name: participantName,
+              auth: '게스트',
+            },
+          })
+        );
+      }
+    });
+    // setIsModalVisible(false);
+  };
 
   const selectProject = productList.find(findProject);
 
@@ -70,7 +98,7 @@ const ContentContainer = () => {
   return (
     <ContentStyle>
       <div>
-        <div className="project-title">
+        <ContentBox className="project-title">
           <h2 data-id={selectProject.id}>
             <FavoritesProjectStyle
               style={{
@@ -82,7 +110,7 @@ const ContentContainer = () => {
             ></FavoritesProjectStyle>
             {selectProject.title}({selectProject.people.length})
           </h2>
-        </div>
+        </ContentBox>
         <ContentBox>
           <ContentChart />
         </ContentBox>
@@ -108,7 +136,15 @@ const ContentContainer = () => {
           <ContentTicket />
         </ContentBox>
       </div>
-      {/* <ContentAside selectProject={selectProject} /> */}
+      <ContentAside
+        selectProject={selectProject}
+        addParticipants={addParticipants}
+        handleCancel={handleCancel}
+        showModal={showModal}
+        isModalVisible={isModalVisible}
+        productList={productList}
+        setParticipantName={setParticipantName}
+      />
     </ContentStyle>
   );
 };

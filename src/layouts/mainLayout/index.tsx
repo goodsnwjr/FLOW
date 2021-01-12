@@ -33,6 +33,8 @@ const HeaderStyle = styled(Header)`
     color: #fff;
     float: right;
     list-style: none;
+    height: 64px;
+    margin: 0;
   }
 
   li {
@@ -93,7 +95,7 @@ const MainLayout = ({ children }: Props) => {
         </ul>
       </HeaderStyle>
       <Layout style={{ display: 'block' }}>
-        <Content style={{ display: 'grid', gridTemplateColumns: '20% 80%', width: '100%' }}>
+        <Content style={{ display: 'grid', gridTemplateColumns: '13% 87%', width: '100%' }}>
           <SideNav />
           {children}
         </Content>

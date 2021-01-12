@@ -6,14 +6,14 @@ const projectsSlice = createSlice({
     projectList: [
       {
         id: 135232,
-        title: '[SI] 현대캐피탈-신차영업팀',
+        title: 'title1',
         people: [
           {
-            name: '이현성',
+            name: '관리자1',
             auth: 'admin',
           },
           {
-            name: '임은정',
+            name: '관리자2',
             auth: 'admin',
           },
         ],
@@ -21,14 +21,14 @@ const projectsSlice = createSlice({
       },
       {
         id: 263632,
-        title: '[아이엠폼] 공지',
+        title: 'title2',
         people: [
           {
-            name: '이현성',
+            name: '관리자1',
             auth: 'admin',
           },
           {
-            name: '임은정',
+            name: '관리자2',
             auth: 'admin',
           },
         ],
@@ -36,14 +36,14 @@ const projectsSlice = createSlice({
       },
       {
         id: 313627,
-        title: '[IMS] 통합 관리',
+        title: 'title3',
         people: [
           {
-            name: '이현성',
+            name: '관리자1',
             auth: 'admin',
           },
           {
-            name: '임은정',
+            name: '관리자2',
             auth: 'admin',
           },
         ],
@@ -61,13 +61,18 @@ const projectsSlice = createSlice({
       console.log(state.projectList);
       state.projectList = action.payload;
     },
+    update: (state, action) => {
+      console.log(state);
+      console.log(action.payload);
+      state.projectList.concat(action.payload);
+    },
     favorite: (state, action) => {
       state.projectList = action.payload;
     },
   },
 });
 
-export const { add, remove, favorite } = projectsSlice.actions;
+export const { add, remove, update, favorite } = projectsSlice.actions;
 export const selectProjects = (state: any) => state.projects.projectList;
 
 const menuSlice = createSlice({
