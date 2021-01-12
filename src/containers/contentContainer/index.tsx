@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { update, favorite, selectProjects } from 'store';
+import { update, favorite, selectProjects, writeContent } from 'store';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +11,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { Tabs } from 'antd';
 import { ContentChart, ContentTicket, ContentAside } from 'components';
 import { checkFavorit } from 'modules/project/favoriteProject';
+import { ContentWrite } from 'components/contentWrite';
 
 const { TabPane } = Tabs;
 
@@ -29,6 +30,7 @@ const ContentStyle = styled.div`
     h2 {
       line-height: 1;
       margin: 0;
+    }
   }
 `;
 const FavoritesProjectStyle = styled(FontAwesomeIcon)`
@@ -45,16 +47,12 @@ const ContentBox = styled.div`
   margin-top: 5px;
 `;
 
-function callback(key: any) {
-  //tab
-  console.log(key);
-}
-
 const ContentContainer = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [participantName, setParticipantName] = useState<string>('');
 
   const projectsList = useSelector(selectProjects);
+  const writeList = useSelector(writeContent);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -115,14 +113,7 @@ const ContentContainer = () => {
           <ContentChart />
         </ContentBox>
         <ContentBox>
-          <Tabs defaultActiveKey="1" onChange={callback}>
-            <TabPane tab="글쓰기" key="1">
-              Content of Tab Pane 1
-            </TabPane>
-            <TabPane tab="할 일" key="2">
-              Content of Tab Pane 2
-            </TabPane>
-          </Tabs>
+          <ContentWrite />
         </ContentBox>
         <ContentBox>
           <h4>상단고정글</h4>
@@ -133,6 +124,9 @@ const ContentContainer = () => {
           </ul>
         </ContentBox>
         <ContentBox>
+          {writeList.map((item: any) => {
+            return <p>{item.content}</p>;
+          })}
           <ContentTicket />
         </ContentBox>
       </div>
