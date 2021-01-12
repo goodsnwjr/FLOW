@@ -50,7 +50,6 @@ const projectsSlice = createSlice({
         favorites: false,
       },
     ],
-    onMenu: 'all',
   },
   reducers: {
     add: (state, action) => {
@@ -90,6 +89,22 @@ const menuSlice = createSlice({
 export const { menuChange } = menuSlice.actions;
 export const selectMenu = (state: any) => state.menu.onMenu;
 
+const writeSlice = createSlice({
+  name: 'write',
+  initialState: {
+    content: [],
+  },
+  reducers: {
+    write: (state, action) => {
+      console.log(action.payload);
+      state.content = action.payload;
+    },
+  },
+});
+
+export const { write } = writeSlice.actions;
+export const writeContent = (state: any) => state.write.content;
+
 export default configureStore({
-  reducer: { projects: projectsSlice.reducer, menu: menuSlice.reducer },
+  reducer: { projects: projectsSlice.reducer, menu: menuSlice.reducer, write: writeSlice.reducer },
 });
