@@ -6,7 +6,7 @@ import { favorite, remove, selectProjects } from 'store';
 import { MainBox } from 'components';
 import { checkFavorit } from 'modules/project/favoriteProject';
 
-const MainContainer = () => {
+export const MainContainer = () => {
   const projectsList = useSelector(selectProjects);
   const dispatch = useDispatch();
 

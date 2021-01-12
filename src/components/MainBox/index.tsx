@@ -65,7 +65,7 @@ export const MainBox = ({ removeProject, checkFavorit }: removeProjectProps) => 
     'cornflowerblue',
   ];
 
-  const projectList = useSelector(selectProjects);
+  const productList = useSelector(selectProjects);
   const menu = useSelector(selectMenu);
 
   const showModal = (e: any) => {
@@ -87,8 +87,8 @@ export const MainBox = ({ removeProject, checkFavorit }: removeProjectProps) => 
     <ItemStyle>
       {menu === 'all' ? (
         <>
-          {projectList &&
-            projectList.map((items: any, index: any) => {
+          {productList &&
+            productList.map((items: any, index: any) => {
               console.log(items.favorites);
               return (
                 <ItemBoxStyle
@@ -123,7 +123,7 @@ export const MainBox = ({ removeProject, checkFavorit }: removeProjectProps) => 
             })}
         </>
       ) : (
-        projectList
+        productList
           .filter((item: any) => {
             return item.favorites;
           })
