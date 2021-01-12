@@ -1,3 +1,3 @@
-export * from './projrct';
+export * from './project';
 export * from './menu';
 export * from './write';
