@@ -102,7 +102,7 @@ const ContentContainer = () => {
           <ContentChart />
         </ContentBox>
         <ContentBox>
-          <ContentWrite />
+          <ContentWrite selectProjectId={selectProject.id} participants={selectProject.participants} />
         </ContentBox>
         <ContentBox>
           <h4>상단고정글</h4>
