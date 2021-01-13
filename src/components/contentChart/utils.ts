@@ -1,33 +1,36 @@
-import React from 'react';
 import Chart from 'chart.js';
-
-export const chart = () => {
+interface progressProps {
+  list?: number[];
+}
+export const chart = ({ list }: progressProps) => {
+  console.log(list);
+  // export const chart = () => {
   Chart.pluginService.register({
     beforeDraw: function (chart: any) {
       if (chart.config.options.elements.center) {
-        var ctx = chart.chart.ctx;
+        let ctx = chart.chart.ctx;
 
-        var centerConfig = chart.config.options.elements.center;
-        var fontStyle = centerConfig.fontStyle || 'Arial';
-        var txt = centerConfig.text;
-        var color = centerConfig.color || '#000';
-        var sidePadding = centerConfig.sidePadding || 20;
-        var sidePaddingCalculated = (sidePadding / 100) * (chart.innerRadius * 2);
+        let centerConfig = chart.config.options.elements.center;
+        let fontStyle = centerConfig.fontStyle || 'Arial';
+        let txt = centerConfig.text;
+        let color = centerConfig.color || '#000';
+        let sidePadding = centerConfig.sidePadding || 20;
+        let sidePaddingCalculated = (sidePadding / 100) * (chart.innerRadius * 2);
         ctx.font = '30px ' + fontStyle;
 
-        var stringWidth = ctx.measureText(txt).width;
-        var elementWidth = chart.innerRadius * 2 - sidePaddingCalculated;
+        let stringWidth = ctx.measureText(txt).width;
+        let elementWidth = chart.innerRadius * 2 - sidePaddingCalculated;
 
-        var widthRatio = elementWidth / stringWidth;
-        var newFontSize = Math.floor(30 * widthRatio);
-        var elementHeight = chart.innerRadius * 2;
+        let widthRatio = elementWidth / stringWidth;
+        let newFontSize = Math.floor(30 * widthRatio);
+        let elementHeight = chart.innerRadius * 2;
 
-        var fontSizeToUse = Math.min(newFontSize, elementHeight);
+        let fontSizeToUse = Math.min(newFontSize, elementHeight);
 
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        var centerX = (chart.chartArea.left + chart.chartArea.right) / 2;
-        var centerY = (chart.chartArea.top + chart.chartArea.bottom) / 2;
+        let centerX = (chart.chartArea.left + chart.chartArea.right) / 2;
+        let centerY = (chart.chartArea.top + chart.chartArea.bottom) / 2;
         ctx.font = fontSizeToUse + 'px ' + fontStyle;
         ctx.fillStyle = color;
 
@@ -36,35 +39,35 @@ export const chart = () => {
     },
   });
 
-  interface configType {
-    type: string;
-    data: {
-      labels: string[];
-      datasets: {
-        data: number[];
-        backgroundColor: string[];
-        hoverBackgroundColor: string[];
-      }[];
-    };
-    options: {
-      elements: {
-        center: {
-          text: string;
-          color: string;
-          fontStyle: string;
-          sidePadding: number;
-        };
-      };
-    };
-  }
+  // interface configType {
+  //   type: string;
+  //   data: {
+  //     labels: string[];
+  //     datasets: {
+  //       data: number[];
+  //       backgroundColor: string[];
+  //       hoverBackgroundColor: string[];
+  //     }[];
+  //   };
+  //   options: {
+  //     elements: {
+  //       center: {
+  //         text: string;
+  //         color: string;
+  //         fontStyle: string;
+  //         sidePadding: number;
+  //       };
+  //     };
+  //   };
+  // }
 
-  var config: any = {
+  let config: any = {
     type: 'doughnut',
     data: {
       labels: ['요청', '진행', '피드백', '완료', '보류'],
       datasets: [
         {
-          data: [300, 50, 100, 10, 20],
+          data: list,
           backgroundColor: [
             'rgba(255, 99, 132, 0.5)',
             'rgba(54, 162, 235, 0.2)',
@@ -121,7 +124,7 @@ export const chart = () => {
         </ul>`;
     },
   };
-  var aa = document.getElementById('myChart') as HTMLCanvasElement;
-  var ctx = aa.getContext('2d') as CanvasRenderingContext2D;
-  var myChart = new Chart(ctx, config);
+  let aa = document.getElementById('myChart') as HTMLCanvasElement;
+  let ctx = aa.getContext('2d') as CanvasRenderingContext2D;
+  let myChart = new Chart(ctx, config);
 };

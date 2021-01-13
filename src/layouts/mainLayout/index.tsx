@@ -49,14 +49,14 @@ const InputStyle = styled.input<inputProps>`
 const MainLayout = ({ children }: Props) => {
   const history = useHistory();
 
-  const productList = useSelector(selectProjects);
+  const projectList = useSelector(selectProjects);
 
-  function findProject(productList: any) {
-    return productList.id === Number(history.location.pathname.split('/')[1]);
+  function findProject(projectList: any) {
+    return projectList.id === Number(history.location.pathname.split('/')[1]);
   }
 
-  const selectProject = productList.find(findProject);
-  console.log(productList);
+  const selectProject = projectList.find(findProject);
+  console.log(projectList);
   console.log(selectProject);
   return (
     <>

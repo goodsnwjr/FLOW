@@ -11,7 +11,7 @@ const writeSlice = createSlice({
         type: '',
         makeTop: false,
         id: 0,
-        like: 0,
+        like: false,
       },
     ],
   },
@@ -24,7 +24,7 @@ const writeSlice = createSlice({
       const { id, like } = action.payload;
       let _content = state.content.find((list) => list.id === id);
       if (_content) {
-        _content.like = _content.like + like;
+        _content.like = like;
       }
     },
     changeStatus: (state, action) => {
