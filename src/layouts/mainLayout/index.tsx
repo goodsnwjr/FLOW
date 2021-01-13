@@ -22,12 +22,7 @@ const HeaderStyle = styled(Header)`
   ul {
     display: inline-block;
   }
-  input {
-    width: 50%;
-    margin-left: 30px;
-    height: 60px;
-    padding-left: 110px;
-  }
+
   ul {
     display: flex;
     color: #fff;
@@ -41,6 +36,15 @@ const HeaderStyle = styled(Header)`
     margin: 0 10px;
   }
 `;
+interface inputProps {
+  selectProject: boolean;
+}
+const InputStyle = styled.input<inputProps>`
+  width: 50%;
+  margin-left: 30px;
+  height: 60px;
+  padding-left: ${(props) => (!props.selectProject ? '20px' : '130px')};
+`;
 
 const MainLayout = ({ children }: Props) => {
   const history = useHistory();
@@ -53,6 +57,7 @@ const MainLayout = ({ children }: Props) => {
 
   const selectProject = productList.find(findProject);
   console.log(productList);
+  console.log(selectProject);
   return (
     <>
       <HeaderStyle>
@@ -66,19 +71,26 @@ const MainLayout = ({ children }: Props) => {
               top: 0,
               marginLeft: 80,
               marginTop: 9,
+              padding: '0 10px',
               lineHeight: '41px',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
-              border: '1px solid black',
+              border: '1px solid rgba(0,0,0,.05)',
               borderRadius: 5,
-              backgroundColor: 'skyblue',
+              backgroundColor: `${selectProject.mainColor}`,
             }}
           >
             {selectProject.title}
           </h3>
         )}
-        <input type="test" name="search_video" id="search_video" placeholder="검색" />
+        <InputStyle
+          type="test"
+          name="search_video"
+          id="search_video"
+          placeholder={selectProject ? '프로젝트 내부에서 검색' : '전체에서 검색'}
+          selectProject={selectProject}
+        />
         <ul>
           <li>
             <p>서비스 업그레이드</p>

@@ -1,11 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export const defaultColor = [
+  'mistyrose',
+  'skyblue',
+  'gold',
+  'tomato',
+  'coral',
+  'gray',
+  'aquamarine',
+  'thistle',
+  'lightblue',
+  'cornflowerblue',
+];
+
 const projectsSlice = createSlice({
   name: 'projects',
   initialState: {
     projectList: [
       {
-        id: 135232,
+        id: 1351232,
         title: 'title1',
         participants: [
           {
@@ -18,6 +31,7 @@ const projectsSlice = createSlice({
           },
         ],
         favorites: false,
+        mainColor: 'mistyrose',
       },
       {
         id: 263632,
@@ -33,6 +47,7 @@ const projectsSlice = createSlice({
           },
         ],
         favorites: false,
+        mainColor: 'skyblue',
       },
       {
         id: 313627,
@@ -48,9 +63,9 @@ const projectsSlice = createSlice({
           },
         ],
         favorites: false,
+        mainColor: 'gold',
       },
     ],
-    onsdsd: '',
   },
   reducers: {
     add: (state, action) => {

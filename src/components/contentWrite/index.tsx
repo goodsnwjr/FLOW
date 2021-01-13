@@ -31,10 +31,11 @@ const Line = styled(Divider)`
 
 interface contentAsideProps {
   selectProjectId: string;
+  mainColor: string;
   participants: any;
 }
 
-export const ContentWrite = ({ selectProjectId, participants }: contentAsideProps) => {
+export const ContentWrite = ({ selectProjectId, participants, mainColor }: contentAsideProps) => {
   const [tabStatus, SetTabStatus] = useState<string>('1');
   const [radioValue, setRadioValue] = useState('');
   const [managers, setManagers] = useState('');
@@ -47,7 +48,8 @@ export const ContentWrite = ({ selectProjectId, participants }: contentAsideProp
   function tabChange(key: any) {
     if (key === '1') {
       workTitleInputRef.current.state.value = '';
-      workContentInputRef.current.state.value = '';
+      console.log(workContentInputRef.current.resizableTextArea);
+      workContentInputRef.current.resizableTextArea.textArea.defaultValue = '';
     } else if (key === '2') {
       writeInputRef.current.state.value = '';
     }
@@ -63,12 +65,11 @@ export const ContentWrite = ({ selectProjectId, participants }: contentAsideProp
     if (tabStatus === '1') {
       let _writeInput = writeInputRef.current.state.value;
       if (!_writeInput) return;
-      newWriteList.push({ title: _writeInput, type: 'write', makeTop: false, id: newWriteList.length + 1 });
+      newWriteList.push({ title: _writeInput, type: 'write', makeTop: false, id: newWriteList.length });
       _writeInput = '';
     } else if (tabStatus === '2') {
       let _workTitleInput = workTitleInputRef.current.state.value;
-      console.log(workContentInputRef.current.resizableTextArea.props.value);
-      let _workContentInput = workContentInputRef.current.resizableTextArea.props.value;
+      let _workContentInput = workContentInputRef.current.resizableTextArea.textArea.outerHTML;
       if (!_workTitleInput) return;
       newWriteList.push({
         title: _workTitleInput,
@@ -77,7 +78,8 @@ export const ContentWrite = ({ selectProjectId, participants }: contentAsideProp
         content: _workContentInput,
         type: 'work',
         makeTop: false,
-        id: newWriteList.length + 1,
+        id: newWriteList.length,
+        like: 0,
       });
       _workTitleInput = '';
       _workContentInput = '';
@@ -102,7 +104,7 @@ export const ContentWrite = ({ selectProjectId, participants }: contentAsideProp
         <TabPane tab="업무" key="2">
           <WorkTitleInput placeholder="업무명을 입력하세요" ref={workTitleInputRef} />
           <Line />
-          <Radio.Group name="progress" onChange={(e) => radioOnChange(e)} value={radioValue}>
+          <Radio.Group name="progress" buttonStyle="solid" onChange={(e) => radioOnChange(e)} value={radioValue}>
             <Radio value={'request'}>요청</Radio>
             <Radio value={'progress'}>진행</Radio>
             <Radio value={'feedback'}>피드백</Radio>
@@ -133,7 +135,7 @@ export const ContentWrite = ({ selectProjectId, participants }: contentAsideProp
       </Tabs>
       <PaperClipOutlined style={{ fontSize: 30 }} />
       <FileImageOutlined style={{ fontSize: 30 }} />
-      <Button style={{ float: 'right', backgroundColor: 'red' }} onClick={contentAdd}>
+      <Button style={{ float: 'right', backgroundColor: mainColor, borderRadius: 5 }} onClick={contentAdd}>
         올리기
       </Button>
     </>
