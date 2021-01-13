@@ -52,12 +52,13 @@ const ContentBox = styled.div<ContentBoxProps>`
 
 const Line = styled(Divider)`
   margin-top: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 `;
 
 const ContentContainer = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [participantName, setParticipantName] = useState<string>('');
+  const [makeTopLength, setMakeTopLength] = useState<number>(0);
 
   const projectsList = useSelector(selectProjects);
   const writeList = useSelector(writeContent);
@@ -99,13 +100,11 @@ const ContentContainer = () => {
     return writeList.id === itemId;
   }
 
-  const checkPin = (item: any) => {
-    console.log(item);
+  const checkPin = (item: any, calc: string) => {
+    setMakeTopLength((prevState) => (calc === 'plus' ? prevState + 1 : prevState - 1));
     const selectWrite = writeList.find((write: any) => findWrite(write, item.id));
-    console.log(selectWrite);
     dispatch(topToggle(selectWrite));
   };
-
   return (
     <ContentStyle>
       <div>
@@ -126,26 +125,26 @@ const ContentContainer = () => {
           <ContentChart />
         </ContentBox>
         <ContentBox>
-          <ContentWrite
-            selectProjectId={selectProject.id}
-            participants={selectProject.participants}
-            mainColor={selectProject.mainColor}
-          />
+          <ContentWrite participants={selectProject.participants} mainColor={selectProject.mainColor} />
         </ContentBox>
-        <ContentBox>
-          <h4>상단고정글</h4>
-          {writeList &&
-            writeList.map((item: any, idx: number) => {
+
+        {makeTopLength > 0 && (
+          <ContentBox>
+            <h4 style={{ display: 'inline' }}>상단고정글</h4>
+            <h4 style={{ display: 'inline' }}>&nbsp;{makeTopLength}</h4>
+            {writeList.map((item: any, idx: number) => {
               return (
                 item.makeTop && (
                   <div key={`top-${idx}`}>
+                    <br></br>
                     <span style={{ fontSize: 19, fontWeight: 'bold' }}>[{item.type}]</span>
                     &nbsp;
                     <span style={{ fontSize: 17 }}>{item.title}</span>
                     <FontAwesomeIcon
                       style={{ float: 'right', marginTop: 7 }}
                       icon={faThumbtack}
-                      onClick={() => checkPin(item)}
+                      onClick={() => checkPin(item, 'minus')}
+                      color={item.makeTop ? selectProject.mainColor : ''}
                     ></FontAwesomeIcon>
                     <span style={{ fontSize: 17, paddingRight: 15, float: 'right' }}>{item.statusKo}</span>
                     <Line />
@@ -153,10 +152,18 @@ const ContentContainer = () => {
                 )
               );
             })}
-        </ContentBox>
+          </ContentBox>
+        )}
         {writeList.length > 1 ? (
           writeList.map((ticket: any, idx: number) => {
-            return <ContentTicket checkPin={() => checkPin(ticket)} ticket={ticket} key={`ticket-${idx}`} />;
+            return (
+              <ContentTicket
+                key={`ticket-${idx}`}
+                checkPin={() => checkPin(ticket, 'plus')}
+                ticket={ticket}
+                mainColor={selectProject.mainColor}
+              />
+            );
           })
         ) : (
           <ContentBox style={{ textAlign: 'center', padding: '40px 0' }}>
