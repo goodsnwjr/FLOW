@@ -12,11 +12,6 @@ export const ContentChart = () => {
     return list.filter((n) => n === type).length;
   };
   useEffect(() => {
-    chart({ list: [0, 0, 0, 0, 0] });
-    // chart();
-  }, [progress]);
-
-  useEffect(() => {
     let list = [];
     for (let i = 0; i < progress.length - 1; i++) {
       list.push(progress[i + 1].status);
@@ -29,7 +24,7 @@ export const ContentChart = () => {
     let pendingLength = statuslength(list, 'pending');
 
     let progressArray = [requestLength, progressLength, feedbackLength, completionLength, pendingLength];
-    chart({ list: progressArray });
+    chart(progressArray);
   }, [progress]);
 
   return (

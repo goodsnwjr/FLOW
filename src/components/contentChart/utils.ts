@@ -1,9 +1,13 @@
+import React, { useState } from 'react';
 import Chart from 'chart.js';
 interface progressProps {
   list?: number[];
 }
-export const chart = ({ list }: progressProps) => {
+export const chart = (list: number[]) => {
   console.log(list);
+  let _list = [...list];
+  let total: number = _list?.reduce((a, c) => a + c);
+  console.log(total);
   // export const chart = () => {
   Chart.pluginService.register({
     beforeDraw: function (chart: any) {
@@ -88,7 +92,7 @@ export const chart = ({ list }: progressProps) => {
     options: {
       elements: {
         center: {
-          text: `업무리포트 \n(전체 31건)`,
+          text: `업무리포트 ${total}건`,
           color: '#000', // Default is #000000
           fontStyle: 'Arial', // Default is Arial
           sidePadding: 20, // Defualt is 20 (as a percentage)
