@@ -118,7 +118,6 @@ interface ticketProps {
 }
 
 export const ContentTicket = ({ ticket, checkPin, mainColor }: ContentTicketProps) => {
-  console.log(ticket);
   const ticketContent = ticket;
   const [comment, setComment] = useState<commentState>({
     comments: [],
@@ -198,7 +197,6 @@ export const ContentTicket = ({ ticket, checkPin, mainColor }: ContentTicketProp
       })
     );
   };
-  console.log(ticketContent.makeTop);
   return (
     <>
       {ticketContent.title !== '' && (

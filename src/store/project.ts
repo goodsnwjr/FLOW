@@ -76,11 +76,9 @@ const projectsSlice = createSlice({
   },
   reducers: {
     add: (state, action) => {
-      console.log(state.projectList);
       state.projectList = action.payload;
     },
     remove: (state, action) => {
-      console.log(state.projectList);
       state.projectList = action.payload;
     },
     update: (state, action) => {

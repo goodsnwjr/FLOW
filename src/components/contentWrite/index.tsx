@@ -51,9 +51,6 @@ export const ContentWrite = ({ participants, mainColor, projectId }: contentAsid
     if (key === '1') {
       workTitleInputRef.current.state.value = '';
 
-      console.log(workTitleInputRef);
-      // if (workTitleInputRef.current) {
-      // }
       setContentTextArea('');
       setRadioValue('');
       setManagers([]);

@@ -64,7 +64,6 @@ export const SideNav = () => {
     });
 
     dispatch(add(newProjectList));
-    console.log(newProjectName.current);
     if (newProjectName.current !== null) {
       newProjectName.current.value = '';
     }

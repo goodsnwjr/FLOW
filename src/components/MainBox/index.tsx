@@ -69,14 +69,12 @@ export const MainBox = ({ removeProject, checkFavorit }: removeProjectProps) => 
     setIsModalVisible(false);
   };
 
-  console.log(removeRef);
   return (
     <ItemStyle>
       {menu === 'all' ? (
         <>
           {projectList &&
             projectList.map((items: projectInitState) => {
-              console.log(items.favorites);
               return (
                 <ItemBoxStyle key={items.id} color={items.mainColor} ref={itemBoxWrapper} data-id={items.id}>
                   <p style={{ textAlign: 'right', lineHeight: '16px' }} onClick={(e) => showModal(e)} ref={removeRef}>

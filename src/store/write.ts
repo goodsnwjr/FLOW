@@ -19,7 +19,6 @@ const writeSlice = createSlice({
   },
   reducers: {
     write: (state, action) => {
-      console.log(action.payload);
       state.content = action.payload;
     },
     like: (state, action) => {

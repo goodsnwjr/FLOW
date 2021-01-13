@@ -195,7 +195,6 @@ const ContentContainer = () => {
           writeList
             .filter((list: any) => list.projectId === Number(history.location.pathname.split('/')[1]))
             .map((ticket: ticketProps, idx: number) => {
-              console.log(ticket);
               return (
                 <ContentTicket
                   key={`ticket-${idx}`}

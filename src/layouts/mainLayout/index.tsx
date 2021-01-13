@@ -56,8 +56,6 @@ const MainLayout = ({ children }: Props) => {
   }
 
   const selectProject = projectList.find(findProject);
-  console.log(projectList);
-  console.log(selectProject);
   return (
     <>
       <HeaderStyle>
