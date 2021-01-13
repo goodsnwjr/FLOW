@@ -22,9 +22,7 @@ export const ContentChart = ({ projectId }: ContentChartProps) => {
   useEffect(() => {
     let list = [];
     for (let i = 0; i < progress.length - 1; i++) {
-      console.log('aa', progress);
-      console.log('aa', progress.projectId);
-      if (progress.projectId === projectId) {
+      if (progress[i + 1].projectId === projectId) {
         list.push(progress[i + 1].status);
       }
     }

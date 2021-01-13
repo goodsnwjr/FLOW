@@ -70,9 +70,9 @@ export const ContentAside = ({
           <h3> &lt; 이전화면으로 </h3>
         </ButtonStyle>
       </Link>
-      <ButtonStyle bgColor={`${mainColor}`} onClick={showModal}>
+      <ButtonStyle style={{ marginTop: 5 }} bgColor={`${mainColor}`} onClick={showModal}>
         <h3>
-          <FontAwesomeIcon icon={faUserPlus} style={{ margin: '10px 10px 0 0' }}></FontAwesomeIcon>참여자 초대하기
+          <FontAwesomeIcon icon={faUserPlus} style={{ marginRight: 10 }}></FontAwesomeIcon>참여자 초대하기
         </h3>
       </ButtonStyle>
       <Modal title="참여자 추가" visible={isModalVisible} onOk={addParticipants} onCancel={handleCancel}>
