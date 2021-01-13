@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { update, favorite, selectProjects, writeContent } from 'store';
+import { update, favorite, selectProjects, writeContent, topToggle } from 'store';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faThumbtack } from '@fortawesome/free-solid-svg-icons';
 
 //components
 import { ContentChart, ContentTicket, ContentAside } from 'components';
 import { checkFavorit } from 'modules/project/favoriteProject';
 import { ContentWrite } from 'components/contentWrite';
+import { Divider } from 'antd';
 
 const ContentStyle = styled.div`
   display: flex;
@@ -43,6 +44,11 @@ const ContentBox = styled.div`
   border-radius: 10px;
   background: #fff;
   margin-top: 5px;
+`;
+
+const Line = styled(Divider)`
+  margin-top: 5px;
+  margin-bottom: 20px;
 `;
 
 const ContentContainer = () => {
@@ -82,9 +88,17 @@ const ContentContainer = () => {
 
   const selectProject = productList.find(findProject);
 
-  const checkPin = () => {
-    //상단고정
+  function findWrite(writeList: any, itemId: any) {
+    return writeList.id === itemId;
+  }
+
+  const checkPin = (item: any) => {
+    console.log(item);
+    const selectWrite = writeList.find((write: any) => findWrite(write, item.id));
+    console.log(selectWrite);
+    dispatch(topToggle(selectWrite));
   };
+
   return (
     <ContentStyle>
       <div>
@@ -109,26 +123,36 @@ const ContentContainer = () => {
         </ContentBox>
         <ContentBox>
           <h4>상단고정글</h4>
-          <ul>
-            <li>
-              [업무] B2B매거진 대리점현황 오류 <span>진행</span>
-            </li>
-          </ul>
-        </ContentBox>
-        {writeList &&
-          writeList.map((item: any) => {
-            return (
-              <ContentBox>
-                <p>{item.content}</p>
-              </ContentBox>
-            );
-          })}
-        <ContentBox>
-          <ContentTicket checkPin={checkPin} />
-          {/* {writeList &&
+          {writeList &&
             writeList.map((item: any) => {
-              return <p>{item.title}</p>;
-            })} */}
+              return (
+                item.makeTop && (
+                  <>
+                    <span style={{ fontSize: 19, fontWeight: 'bold' }}>[{item.type}]</span>
+                    &nbsp;
+                    <span style={{ fontSize: 17 }}>{item.title}</span>
+                    <FontAwesomeIcon
+                      style={{ float: 'right', marginTop: 7 }}
+                      icon={faThumbtack}
+                      onClick={() => checkPin(item)}
+                    ></FontAwesomeIcon>
+                    <span style={{ fontSize: 17, paddingRight: 15, float: 'right' }}>{item.statusKo}</span>
+                    <Line />
+                  </>
+                )
+              );
+            })}
+        </ContentBox>
+        <ContentBox>
+          {writeList &&
+            writeList.map((item: any) => {
+              return (
+                <>
+                  <ContentTicket checkPin={() => checkPin(item)} />
+                  <p>{item.title}</p>
+                </>
+              );
+            })}
         </ContentBox>
       </div>
       <ContentAside

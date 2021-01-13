@@ -37,6 +37,7 @@ interface contentAsideProps {
 export const ContentWrite = ({ selectProjectId, participants }: contentAsideProps) => {
   const [tabStatus, SetTabStatus] = useState<string>('1');
   const [radioValue, setRadioValue] = useState('');
+  const [radioValueKo, setRadioValueKo] = useState('');
   const [manager, setManager] = useState('');
   const writeList = useSelector(writeContent);
   const dispatch = useDispatch();
@@ -63,7 +64,7 @@ export const ContentWrite = ({ selectProjectId, participants }: contentAsideProp
     if (tabStatus === '1') {
       let _writeInput = writeInputRef.current.state.value;
       if (!_writeInput) return;
-      newWriteList.push({ title: _writeInput, type: 'write', makeTop: false, id: newWriteList.length + 1 });
+      newWriteList.push({ title: _writeInput, type: '일반', makeTop: false, id: newWriteList.length + 1 });
       _writeInput = '';
     } else if (tabStatus === '2') {
       let _workTitleInput = workTitleInputRef.current.state.value;
@@ -73,9 +74,10 @@ export const ContentWrite = ({ selectProjectId, participants }: contentAsideProp
       newWriteList.push({
         title: _workTitleInput,
         status: radioValue,
+        statusKo: radioValueKo,
         manager: manager,
         content: _workContentInput,
-        type: 'work',
+        type: '업무',
         makeTop: false,
         id: newWriteList.length + 1,
       });
@@ -86,6 +88,25 @@ export const ContentWrite = ({ selectProjectId, participants }: contentAsideProp
   };
 
   function radioOnChange(e: any) {
+    switch (e.target.value) {
+      case 'request':
+        setRadioValueKo('요청');
+        break;
+      case 'progress':
+        setRadioValueKo('진행');
+        break;
+      case 'feedback':
+        setRadioValueKo('피드백');
+        break;
+      case 'completion':
+        setRadioValueKo('완료');
+        break;
+      case 'pending':
+        setRadioValueKo('보류');
+        break;
+      default:
+        setRadioValueKo('요청');
+    }
     setRadioValue(e.target.value);
   }
 
