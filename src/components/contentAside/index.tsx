@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 //modules
 import { Modal } from 'antd';
@@ -46,6 +47,7 @@ interface contentAsideProps {
   isModalVisible: boolean;
   setParticipantName: React.Dispatch<React.SetStateAction<string>>;
   mainColor: string;
+  invite: any;
 }
 
 export const ContentAside = ({
@@ -56,12 +58,15 @@ export const ContentAside = ({
   setParticipantName,
   isModalVisible,
   mainColor,
+  invite,
 }: contentAsideProps) => {
   return (
     <div>
-      <ButtonStyle>
-        <h3> &lt; 이전화면으로 </h3>
-      </ButtonStyle>
+      <Link to="/">
+        <ButtonStyle>
+          <h3> &lt; 이전화면으로 </h3>
+        </ButtonStyle>
+      </Link>
       <ButtonStyle bgColor={`${mainColor}`} onClick={showModal}>
         <h3>
           <FontAwesomeIcon icon={faUserPlus} style={{ marginRight: 10 }}></FontAwesomeIcon>참여자 초대하기
@@ -69,6 +74,7 @@ export const ContentAside = ({
       </ButtonStyle>
       <Modal title="참여자 추가" visible={isModalVisible} onOk={addParticipants} onCancel={handleCancel}>
         <input
+          ref={invite}
           onChange={(e) => {
             setParticipantName(e.target.value);
           }}

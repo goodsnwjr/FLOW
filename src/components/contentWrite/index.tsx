@@ -67,7 +67,7 @@ export const ContentWrite = ({ participants, mainColor }: contentAsideProps) => 
     if (tabStatus === '1') {
       let _writeInput = writeInputRef.current.state.value;
       if (!_writeInput) return;
-      newWriteList.push({ title: _writeInput, type: '일반', makeTop: false, id: newWriteList.length });
+      newWriteList.push({ title: _writeInput, type: '일반', makeTop: false, id: newWriteList.length, like: false });
       writeInputRef.current.state.value = '';
     } else if (tabStatus === '2') {
       let _workTitleInput = workTitleInputRef.current.state.value;
@@ -83,7 +83,7 @@ export const ContentWrite = ({ participants, mainColor }: contentAsideProps) => 
         type: '업무',
         makeTop: false,
         id: newWriteList.length,
-        like: 0,
+        like: false,
       });
 
       workTitleInputRef.current.state.value = '';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 //modules
@@ -36,7 +36,7 @@ export const SideNav = () => {
   const [newProject, setNewProject] = useState<string>('');
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const projectsList = useSelector(selectProjects);
-
+  const newProjectName = useRef<any>();
   const dispatch = useDispatch();
 
   const showModal = () => {
@@ -62,7 +62,8 @@ export const SideNav = () => {
     });
 
     dispatch(add(newProjectList));
-    // localStorage.setItem('project', JSON.stringify(projectList));
+    console.log(newProjectName.current);
+    newProjectName.current.value = '';
   };
 
   const onChangeMenuAll = () => {
@@ -79,6 +80,7 @@ export const SideNav = () => {
         <Button onClick={showModal}> + 새 프로젝트</Button>
         <Modal title="새 프로젝트 추가" visible={isModalVisible} onOk={newProjrct} onCancel={handleCancel}>
           <input
+            ref={newProjectName}
             onChange={(e) => {
               setNewProject(e.target.value);
             }}

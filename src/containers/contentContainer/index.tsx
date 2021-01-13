@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -66,6 +66,8 @@ const ContentContainer = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const invite = useRef<any>();
+
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -74,10 +76,10 @@ const ContentContainer = () => {
     setIsModalVisible(false);
   };
 
-  const productList = useSelector(selectProjects);
+  const projectList = useSelector(selectProjects);
 
-  function findProject(productList: any) {
-    return productList.id === Number(history.location.pathname.split('/')[1]);
+  function findProject(projectList: any) {
+    return projectList.id === Number(history.location.pathname.split('/')[1]);
   }
 
   const addParticipants = () => {
@@ -89,9 +91,10 @@ const ContentContainer = () => {
       })
     );
     setIsModalVisible(false);
+    invite.current.value = '';
   };
 
-  const selectProject = productList.find(findProject);
+  const selectProject = projectList.find(findProject);
 
   function findWrite(writeList: any, itemId: any) {
     return writeList.id === itemId;
@@ -129,10 +132,10 @@ const ContentContainer = () => {
           <ContentBox>
             <h4 style={{ display: 'inline' }}>상단고정글</h4>
             <h4 style={{ display: 'inline' }}>&nbsp;{makeTopLength}</h4>
-            {writeList.map((item: any) => {
+            {writeList.map((item: any, idx: number) => {
               return (
                 item.makeTop && (
-                  <>
+                  <div key={`top-${idx}`}>
                     <br></br>
                     <span style={{ fontSize: 19, fontWeight: 'bold' }}>[{item.type}]</span>
                     &nbsp;
@@ -145,16 +148,17 @@ const ContentContainer = () => {
                     ></FontAwesomeIcon>
                     <span style={{ fontSize: 17, paddingRight: 15, float: 'right' }}>{item.statusKo}</span>
                     <Line />
-                  </>
+                  </div>
                 )
               );
             })}
           </ContentBox>
         )}
         {writeList.length > 1 ? (
-          writeList.map((ticket: any) => {
+          writeList.map((ticket: any, idx: number) => {
             return (
               <ContentTicket
+                key={`ticket-${idx}`}
                 checkPin={() => checkPin(ticket, 'plus')}
                 ticket={ticket}
                 mainColor={selectProject.mainColor}
@@ -175,6 +179,7 @@ const ContentContainer = () => {
         isModalVisible={isModalVisible}
         setParticipantName={setParticipantName}
         mainColor={selectProject.mainColor}
+        invite={invite}
       />
     </ContentStyle>
   );

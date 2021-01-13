@@ -89,10 +89,10 @@ interface commentState {
   value: string;
 }
 
-interface progressState {
-  type: string;
-  count: number;
-}
+// interface progressState {
+//   type: string;
+//   count: number;
+// }
 interface ContentTicketProps {
   ticket: any;
   checkPin: () => void;
@@ -100,7 +100,6 @@ interface ContentTicketProps {
 }
 
 export const ContentTicket = ({ ticket, checkPin, mainColor }: ContentTicketProps) => {
-  const [value, setValue] = useState('request');
   const ticketContent = ticket;
   const [comment, setComment] = useState<commentState>({
     comments: [],
@@ -143,13 +142,16 @@ export const ContentTicket = ({ ticket, checkPin, mainColor }: ContentTicketProp
     });
   };
 
-  const likeContent = (id: number) => {
+  const likeContent = (e: any, ticket: any) => {
+    console.log(ticket);
     dispatch(
       like({
-        id: id,
-        like: 1,
+        id: ticket.id,
+        like: ticket.like === true ? false : true,
       })
     );
+
+    e.target.style.color = ticket.like ? 'red' : 'black';
   };
 
   const onChange = (id: number, value: RadioChangeEvent) => {
@@ -252,8 +254,12 @@ export const ContentTicket = ({ ticket, checkPin, mainColor }: ContentTicketProp
           )}
           <Line />
           <CommonStyle>
-            <FontAwesomeIconStyle onClick={() => likeContent(ticketContent.id)} icon={faHeart}></FontAwesomeIconStyle>
-            {ticketContent.like && <span>{ticketContent.like}</span>}
+            <FontAwesomeIconStyle
+              style={{ fontSize: 20 }}
+              onClick={(e) => likeContent(e, ticketContent)}
+              icon={faHeart}
+            ></FontAwesomeIconStyle>
+            {ticketContent.like && <span>1</span>}
           </CommonStyle>
           <Line />
           <>
