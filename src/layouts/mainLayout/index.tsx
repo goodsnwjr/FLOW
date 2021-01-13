@@ -51,7 +51,7 @@ const MainLayout = ({ children }: Props) => {
 
   const projectList = useSelector(selectProjects);
 
-  function findProject(projectList: any) {
+  function findProject(projectList: { id: number }) {
     return projectList.id === Number(history.location.pathname.split('/')[1]);
   }
 

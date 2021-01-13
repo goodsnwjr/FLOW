@@ -5,6 +5,7 @@ const writeSlice = createSlice({
   initialState: {
     content: [
       {
+        projectId: 0,
         title: '',
         status: '',
         statusKo: '',

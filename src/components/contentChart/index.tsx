@@ -7,18 +7,26 @@ const BoxStyle = styled.div`
   display: flex;
   justify-content: center;
 `;
-export const ContentChart = () => {
-  // const [progressArray, setProgressArray] = useState([]);
 
+interface ContentChartProps {
+  projectId: number;
+}
+
+export const ContentChart = ({ projectId }: ContentChartProps) => {
   const progress = useSelector(writeContent);
 
   const statuslength = (list: Array<string>, type: string) => {
     return list.filter((n) => n === type).length;
   };
+
   useEffect(() => {
     let list = [];
     for (let i = 0; i < progress.length - 1; i++) {
-      list.push(progress[i + 1].status);
+      console.log('aa', progress);
+      console.log('aa', progress.projectId);
+      if (progress.projectId === projectId) {
+        list.push(progress[i + 1].status);
+      }
     }
 
     let requestLength = statuslength(list, 'request');

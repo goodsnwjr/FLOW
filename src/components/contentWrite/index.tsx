@@ -32,9 +32,10 @@ const Line = styled(Divider)`
 interface contentAsideProps {
   mainColor: string;
   participants: any;
+  projectId: number;
 }
 
-export const ContentWrite = ({ participants, mainColor }: contentAsideProps) => {
+export const ContentWrite = ({ participants, mainColor, projectId }: contentAsideProps) => {
   const [tabStatus, SetTabStatus] = useState<string>('1');
   const [radioValue, setRadioValue] = useState<string>('');
   const [radioValueKo, setRadioValueKo] = useState<string>('');
@@ -71,14 +72,20 @@ export const ContentWrite = ({ participants, mainColor }: contentAsideProps) => 
     if (tabStatus === '1') {
       let _writeInput = writeInputRef.current.state.value;
       if (!_writeInput) return;
-      newWriteList.unshift({ title: _writeInput, type: '일반', makeTop: false, id: newWriteList.length, like: false });
+      newWriteList.push({
+        projectId: projectId,
+        title: _writeInput,
+        type: '일반',
+        makeTop: false,
+        id: newWriteList.length,
+        like: false,
+      });
       writeInputRef.current.state.value = '';
     } else if (tabStatus === '2') {
       let _workTitleInput = workTitleInputRef.current.state.value;
-      //   let _workContentInput = workContentInputRef.current.resizableTextArea.textArea.defaultValue;
-
       if (!_workTitleInput || !radioValue || !contentTextArea) return;
-      newWriteList.unshift({
+      newWriteList.push({
+        projectId: projectId,
         title: _workTitleInput,
         status: radioValue,
         statusKo: radioValueKo,

@@ -61,6 +61,18 @@ const Line = styled(Divider)`
   margin-bottom: 0px;
 `;
 
+interface ticketProps {
+  content: string;
+  id: number;
+  like: boolean;
+  makeTop: boolean;
+  managers: string[];
+  status: string;
+  statusKo: string;
+  title: string;
+  type: string;
+}
+
 const ContentContainer = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [participantName, setParticipantName] = useState<string>('');
@@ -73,7 +85,7 @@ const ContentContainer = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const invite = useRef<any>();
+  const invite = useRef<HTMLInputElement | null>(null);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -85,7 +97,7 @@ const ContentContainer = () => {
 
   const projectList = useSelector(selectProjects);
 
-  function findProject(projectList: any) {
+  function findProject(projectList: { id: number }) {
     return projectList.id === Number(history.location.pathname.split('/')[1]);
   }
 
@@ -98,20 +110,23 @@ const ContentContainer = () => {
       })
     );
     setIsModalVisible(false);
-    invite.current.value = '';
+    if (invite.current !== null) {
+      invite.current.value = '';
+    }
   };
 
   const selectProject = projectList.find(findProject);
 
-  function findWrite(writeList: any, itemId: any) {
+  function findWrite(writeList: { id: number }, itemId: number) {
     return writeList.id === itemId;
   }
 
-  const checkPin = (item: any, calc: string) => {
+  const checkPin = (item: { id: number }, calc: string) => {
     setMakeTopLength((prevState) => (calc === 'plus' ? prevState + 1 : prevState - 1));
-    const selectWrite = writeList.find((write: any) => findWrite(write, item.id));
+    const selectWrite = writeList.find((write: { id: number }) => findWrite(write, item.id));
     dispatch(topToggle(selectWrite));
   };
+
   return (
     <ContentStyle>
       <div>
@@ -129,17 +144,21 @@ const ContentContainer = () => {
           </h2>
         </ContentBox>
         <ContentBox>
-          <ContentChart />
+          <ContentChart projectId={Number(history.location.pathname.split('/')[1])} />
         </ContentBox>
         <ContentBox>
-          <ContentWrite participants={selectProject.participants} mainColor={selectProject.mainColor} />
+          <ContentWrite
+            participants={selectProject.participants}
+            mainColor={selectProject.mainColor}
+            projectId={Number(history.location.pathname.split('/')[1])}
+          />
         </ContentBox>
 
         {makeTopLength > 0 && (
           <ContentBox>
             <h4 style={{ display: 'inline' }}>상단고정글</h4>
             <h4 style={{ display: 'inline' }}>&nbsp;{makeTopLength}</h4>
-            {writeList.map((item: any, idx: number) => {
+            {writeList.map((item: ticketProps, idx: number) => {
               return (
                 item.makeTop && (
                   <div key={`top-${idx}`}>
@@ -173,16 +192,19 @@ const ContentContainer = () => {
           </ContentBox>
         )}
         {writeList.length > 1 ? (
-          writeList.map((ticket: any, idx: number) => {
-            return (
-              <ContentTicket
-                key={`ticket-${idx}`}
-                checkPin={() => checkPin(ticket, 'plus')}
-                ticket={ticket}
-                mainColor={selectProject.mainColor}
-              />
-            );
-          })
+          writeList
+            .filter((list: any) => list.projectId === Number(history.location.pathname.split('/')[1]))
+            .map((ticket: ticketProps, idx: number) => {
+              console.log(ticket);
+              return (
+                <ContentTicket
+                  key={`ticket-${idx}`}
+                  checkPin={() => checkPin(ticket, 'plus')}
+                  ticket={ticket}
+                  mainColor={selectProject.mainColor}
+                />
+              );
+            })
         ) : (
           <ContentBox style={{ textAlign: 'center', padding: '40px 0' }}>
             <div>등록된 게시글이 없습니다.</div>

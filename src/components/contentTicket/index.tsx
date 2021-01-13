@@ -65,10 +65,15 @@ const CommentList = ({ comments }: commentProps) => (
 );
 
 interface editorProps {
-  onChange: any;
-  onSubmit: any;
-  submitting: any;
-  value: any;
+  onChange: ((event: React.ChangeEvent<HTMLTextAreaElement>) => void) | undefined;
+  onSubmit: ((event: React.MouseEvent<HTMLElement, MouseEvent>) => void) | undefined;
+  submitting:
+    | boolean
+    | {
+        delay?: number | undefined;
+      };
+
+  value: string;
 }
 const Editor = ({ onChange, onSubmit, submitting, value }: editorProps) => (
   <>
@@ -94,17 +99,26 @@ interface commentState {
   value: string;
 }
 
-// interface progressState {
-//   type: string;
-//   count: number;
-// }
 interface ContentTicketProps {
-  ticket: any;
+  ticket: ticketProps;
   checkPin: () => void;
   mainColor: string;
 }
 
+interface ticketProps {
+  content: string;
+  id: number;
+  like: boolean;
+  makeTop: boolean;
+  managers: string[];
+  status: string;
+  statusKo: string;
+  title: string;
+  type: string;
+}
+
 export const ContentTicket = ({ ticket, checkPin, mainColor }: ContentTicketProps) => {
+  console.log(ticket);
   const ticketContent = ticket;
   const [comment, setComment] = useState<commentState>({
     comments: [],
@@ -132,7 +146,6 @@ export const ContentTicket = ({ ticket, checkPin, mainColor }: ContentTicketProp
             author: 'You',
             avatar: <FontAwesomeIcon icon={faPaw}></FontAwesomeIcon>,
             content: <p>{comment.value}</p>,
-            // datetime: moment().fromNow(),
           },
           ...comment.comments,
         ],
@@ -147,7 +160,7 @@ export const ContentTicket = ({ ticket, checkPin, mainColor }: ContentTicketProp
     });
   };
 
-  const likeContent = (e: any, ticket: any) => {
+  const likeContent = (e: any, ticket: ticketProps) => {
     dispatch(
       like({
         id: ticket.id,
@@ -248,7 +261,7 @@ export const ContentTicket = ({ ticket, checkPin, mainColor }: ContentTicketProp
             <>
               <Line />
               <div>
-                {ticketContent.content.split('\n').map((line: any) => {
+                {ticketContent.content.split('\n').map((line: string) => {
                   return (
                     <span>
                       {line}

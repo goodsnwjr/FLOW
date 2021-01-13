@@ -1,5 +1,5 @@
 /* eslint-disable array-callback-return */
-import React from 'react';
+import React, { MutableRefObject } from 'react';
 import { Link } from 'react-router-dom';
 
 //modules
@@ -49,7 +49,7 @@ interface contentAsideProps {
   setParticipantName: React.Dispatch<React.SetStateAction<string>>;
   setParticipantAuth: any;
   mainColor: string;
-  invite: any;
+  invite: MutableRefObject<HTMLInputElement | null>;
 }
 
 export const ContentAside = ({
