@@ -37,12 +37,16 @@ const FavoritesProjectStyle = styled(FontAwesomeIcon)`
   margin-right: 10px;
 `;
 
-const ContentBox = styled.div`
+interface ContentBoxProps {
+  bgColor?: string;
+}
+
+const ContentBox = styled.div<ContentBoxProps>`
   width: 95%;
   padding: 20px;
   box-sizing: border-box;
   border-radius: 10px;
-  background: #fff;
+  background: ${(props) => (props.bgColor ? props.bgColor : '#fff')};
   margin-top: 5px;
 `;
 
@@ -102,7 +106,8 @@ const ContentContainer = () => {
   return (
     <ContentStyle>
       <div>
-        <ContentBox className="project-title">
+        <ContentBox className="project-title" bgColor={`${selectProject.mainColor}`}>
+          {/* <ContentBox className="project-title"> */}
           <h2 data-id={selectProject.id}>
             <FavoritesProjectStyle
               style={{
@@ -119,7 +124,11 @@ const ContentContainer = () => {
           <ContentChart />
         </ContentBox>
         <ContentBox>
-          <ContentWrite selectProjectId={selectProject.id} participants={selectProject.participants} />
+          <ContentWrite
+            selectProjectId={selectProject.id}
+            participants={selectProject.participants}
+            mainColor={selectProject.mainColor}
+          />
         </ContentBox>
         <ContentBox>
           <h4>상단고정글</h4>
@@ -143,17 +152,15 @@ const ContentContainer = () => {
               );
             })}
         </ContentBox>
-        <ContentBox>
-          {writeList &&
-            writeList.map((item: any) => {
-              return (
-                <>
-                  <ContentTicket checkPin={() => checkPin(item)} />
-                  <p>{item.title}</p>
-                </>
-              );
-            })}
-        </ContentBox>
+        {writeList.length > 1 ? (
+          writeList.map((ticket: any) => {
+            return <ContentTicket checkPin={() => checkPin(ticket)} ticket={ticket} />;
+          })
+        ) : (
+          <ContentBox style={{ textAlign: 'center', padding: '40px 0' }}>
+            <div>등록된 게시글이 없습니다.</div>
+          </ContentBox>
+        )}
       </div>
       <ContentAside
         selectProject={selectProject}
@@ -162,6 +169,7 @@ const ContentContainer = () => {
         showModal={showModal}
         isModalVisible={isModalVisible}
         setParticipantName={setParticipantName}
+        mainColor={selectProject.mainColor}
       />
     </ContentStyle>
   );

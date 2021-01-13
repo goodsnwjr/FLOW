@@ -16,6 +16,7 @@ import { Modal } from 'antd';
 interface removeProjectProps {
   removeProject: (e: any) => void;
   checkFavorit: (e: any) => void;
+  defaultColor: Array<string>;
 }
 // interface projectItem {
 //   id: number;
@@ -45,25 +46,12 @@ const FavoritesProjectStyle = styled(FontAwesomeIcon)`
   margin-right: 10px;
 `;
 
-export const MainBox = ({ removeProject, checkFavorit }: removeProjectProps) => {
+export const MainBox = ({ removeProject, checkFavorit, defaultColor }: removeProjectProps) => {
   const itemBoxWrapper = useRef<any>();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [thisProject, setThisProject] = useState<any>();
 
   const removeRef = useRef<any>();
-
-  const color = [
-    'mistyrose',
-    'skyblue',
-    'gold',
-    'tomato',
-    'coral',
-    'gray',
-    'aquamarine',
-    'thistle',
-    'lightblue',
-    'cornflowerblue',
-  ];
 
   const projectList = useSelector(selectProjects);
   const menu = useSelector(selectMenu);
@@ -91,7 +79,7 @@ export const MainBox = ({ removeProject, checkFavorit }: removeProjectProps) => 
             projectList.map((items: any, index: any) => {
               console.log(items.favorites);
               return (
-                <ItemBoxStyle key={items.id} color={color[index]} ref={itemBoxWrapper} data-id={items.id}>
+                <ItemBoxStyle key={items.id} color={items.mainColor} ref={itemBoxWrapper} data-id={items.id}>
                   <p style={{ textAlign: 'right', lineHeight: '16px' }} onClick={(e) => showModal(e)} ref={removeRef}>
                     X
                   </p>
@@ -101,7 +89,7 @@ export const MainBox = ({ removeProject, checkFavorit }: removeProjectProps) => 
                     onOk={removeCancel}
                     onCancel={handleCancel}
                   ></Modal>
-                  <Link to={`${items.id}?${color[index]}`}>
+                  <Link to={`${items.id}`}>
                     <h3>{items.title}</h3>
                   </Link>
                   <p>{items.participants.length}명 참여중</p>
@@ -124,12 +112,7 @@ export const MainBox = ({ removeProject, checkFavorit }: removeProjectProps) => 
           })
           .map((items: any, index: any) => {
             return (
-              <ItemBoxStyle
-                key={items.id}
-                color={color[Math.floor(Math.random() * 10)]}
-                ref={itemBoxWrapper}
-                data-id={items.id}
-              >
+              <ItemBoxStyle key={items.id} color={items.mainColor} ref={itemBoxWrapper} data-id={items.id}>
                 <p style={{ textAlign: 'right', lineHeight: '16px' }} onClick={(e) => showModal(e)} ref={removeRef}>
                   X
                 </p>
