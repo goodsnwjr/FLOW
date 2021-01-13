@@ -96,9 +96,10 @@ interface progressState {
 interface ContentTicketProps {
   ticket: any;
   checkPin: () => void;
+  mainColor: string;
 }
 
-export const ContentTicket = ({ ticket, checkPin }: ContentTicketProps) => {
+export const ContentTicket = ({ ticket, checkPin, mainColor }: ContentTicketProps) => {
   const [value, setValue] = useState('request');
   const ticketContent = ticket;
   const [comment, setComment] = useState<commentState>({
@@ -152,15 +153,35 @@ export const ContentTicket = ({ ticket, checkPin }: ContentTicketProps) => {
   };
 
   const onChange = (id: number, value: RadioChangeEvent) => {
-    console.log(value.target.value);
+    let valueKos = '';
+    switch (value.target.value) {
+      case 'request':
+        valueKos = '요청';
+        break;
+      case 'progress':
+        valueKos = '진행';
+        break;
+      case 'feedback':
+        valueKos = '피드백';
+        break;
+      case 'completion':
+        valueKos = '완료';
+        break;
+      case 'pending':
+        valueKos = '보류';
+        break;
+      default:
+        valueKos = '요청';
+    }
     dispatch(
       changeStatus({
         id: id,
         value: value.target.value,
+        valueKo: valueKos,
       })
     );
   };
-  console.log(ticketContent.title !== '');
+  console.log(ticketContent.makeTop);
   return (
     <>
       {ticketContent.title !== '' && (
@@ -173,7 +194,11 @@ export const ContentTicket = ({ ticket, checkPin }: ContentTicketProps) => {
               <p>관리자 1</p>
               <p>2021-01-08 10:27</p>
             </div>
-            <FontAwesomeIcon icon={faThumbtack} onClick={checkPin}></FontAwesomeIcon>
+            <FontAwesomeIcon
+              icon={faThumbtack}
+              onClick={checkPin}
+              color={ticketContent.makeTop ? mainColor : ''}
+            ></FontAwesomeIcon>
           </MakeTicket>
           <TitleArea>
             <h2>{ticketContent.title}</h2>

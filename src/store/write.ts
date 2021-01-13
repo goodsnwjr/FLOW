@@ -7,6 +7,7 @@ const writeSlice = createSlice({
       {
         title: '',
         status: '',
+        statusKo: '',
         content: '',
         type: '',
         makeTop: false,
@@ -28,10 +29,11 @@ const writeSlice = createSlice({
       }
     },
     changeStatus: (state, action) => {
-      const { id, value } = action.payload;
+      const { id, value, valueKo } = action.payload;
       let _content = state.content.find((list) => list.id === id);
       if (_content) {
         _content.status = value;
+        _content.statusKo = valueKo;
       }
     },
     topToggle: (state, action) => {
