@@ -30,16 +30,15 @@ const Line = styled(Divider)`
 `;
 
 interface contentAsideProps {
-  selectProjectId: string;
   mainColor: string;
   participants: any;
 }
 
-export const ContentWrite = ({ selectProjectId, participants, mainColor }: contentAsideProps) => {
+export const ContentWrite = ({ participants, mainColor }: contentAsideProps) => {
   const [tabStatus, SetTabStatus] = useState<string>('1');
   const [radioValue, setRadioValue] = useState('');
   const [radioValueKo, setRadioValueKo] = useState('');
-  const [managers, setManagers] = useState('');
+  const [managers, setManagers] = useState([]);
   const [contentTextArea, setContentTextArea] = useState<string>('');
   const writeList = useSelector(writeContent);
   const dispatch = useDispatch();
@@ -50,9 +49,9 @@ export const ContentWrite = ({ selectProjectId, participants, mainColor }: conte
   function tabChange(key: any) {
     if (key === '1') {
       workTitleInputRef.current.state.value = '';
-      console.log(workContentInputRef.current.resizableTextArea.textArea.innerHTML);
       setContentTextArea('');
-      //   workContentInputRef.current.resizableTextArea.textArea.innerHTML = '';
+      setRadioValue('');
+      setManagers([]);
     } else if (key === '2') {
       writeInputRef.current.state.value = '';
     }
@@ -69,24 +68,28 @@ export const ContentWrite = ({ selectProjectId, participants, mainColor }: conte
       let _writeInput = writeInputRef.current.state.value;
       if (!_writeInput) return;
       newWriteList.push({ title: _writeInput, type: '일반', makeTop: false, id: newWriteList.length });
-      _writeInput = '';
+      writeInputRef.current.state.value = '';
     } else if (tabStatus === '2') {
       let _workTitleInput = workTitleInputRef.current.state.value;
-      let _workContentInput = workContentInputRef.current.resizableTextArea.textArea.defaultValue;
-      if (!_workTitleInput) return;
+      //   let _workContentInput = workContentInputRef.current.resizableTextArea.textArea.defaultValue;
+
+      if (!_workTitleInput || !radioValue || !contentTextArea) return;
       newWriteList.push({
         title: _workTitleInput,
         status: radioValue,
         statusKo: radioValueKo,
         managers: managers,
-        content: _workContentInput,
+        content: contentTextArea,
         type: '업무',
         makeTop: false,
         id: newWriteList.length,
         like: 0,
       });
-      _workTitleInput = '';
-      _workContentInput = '';
+
+      workTitleInputRef.current.state.value = '';
+      setContentTextArea('');
+      setRadioValue('');
+      setManagers([]);
     }
     dispatch(write(newWriteList));
   };
@@ -115,8 +118,13 @@ export const ContentWrite = ({ selectProjectId, participants, mainColor }: conte
   }
 
   const workContentChange = (e: any) => {
-    setContentTextArea(e.target.innerHTML);
+    let values = contentTextArea + e.nativeEvent.data;
+    setContentTextArea(values);
   };
+
+  useEffect(() => {
+    setContentTextArea(contentTextArea);
+  }, [contentTextArea]);
 
   useEffect(() => {
     writeInputRef.current.state.value = '';
@@ -146,6 +154,7 @@ export const ContentWrite = ({ selectProjectId, participants, mainColor }: conte
             placeholder="담당자 추가"
             onChange={handleChange}
             dropdownStyle={{ width: '30px' }}
+            value={managers}
           >
             {participants.map((item: any, index: number) => {
               return (
@@ -156,9 +165,11 @@ export const ContentWrite = ({ selectProjectId, participants, mainColor }: conte
             })}
           </Select>
           <Line />
-          <WorkContentInput ref={workContentInputRef} onChange={(e) => workContentChange(e)}>
-            {contentTextArea}
-          </WorkContentInput>
+          <WorkContentInput
+            ref={workContentInputRef}
+            onChange={(e) => workContentChange(e)}
+            value={contentTextArea}
+          ></WorkContentInput>
           <Line />
         </TabPane>
       </Tabs>
