@@ -31,9 +31,9 @@ const TitleArea = styled.div`
     display: inline-block;
   }
 `;
-const RadioBtn = styled(Radio)`
-  border
-`;
+// const RadioBtn = styled(Radio)`
+//   border
+// `;
 
 interface commentProps {
   comments: any;
