@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
+
 import styled from 'styled-components';
 import { Comment, Avatar, Form, Button, List, Input, Radio, Divider } from 'antd';
 import { CommentProps } from 'antd/lib/comment';
-import { faUserCircle, faThumbtack, faHistory, faUserFriends, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle, faThumbtack, faHistory, faUserFriends, faHeart, faPaw } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
 import { like, changeStatus } from 'store';
 import { RadioChangeEvent } from 'antd/lib/radio';
-
 const { TextArea } = Input;
 
 const ContentBox = styled.div`
@@ -24,10 +24,10 @@ const FontAwesomeIconStyle = styled(FontAwesomeIcon)`
 `;
 const MakeTicket = styled.div`
   display: grid;
-  grid-template-columns: 10% 87% 3%;
+  grid-template-columns: 10% 88.6% 1.4%;
   > div:nth-child(1) {
-    font-size: 2rem;
-    vertical-align: middle;
+    display: flex;
+    align-items: center;
   }
   div:nth-child(2) {
     padding: 5px 0;
@@ -75,9 +75,14 @@ const Editor = ({ onChange, onSubmit, submitting, value }: editorProps) => (
     <Form.Item>
       <TextArea rows={4} onChange={onChange} value={value} />
     </Form.Item>
-    <Form.Item>
-      <Button htmlType="submit" loading={submitting} onClick={onSubmit} type="primary">
-        Add Comment
+    <Form.Item style={{ textAlign: 'right' }}>
+      <Button
+        htmlType="submit"
+        loading={submitting}
+        onClick={onSubmit}
+        style={{ color: '#fff', background: '#001529' }}
+      >
+        댓글 입력하기
       </Button>
     </Form.Item>
   </>
@@ -124,8 +129,8 @@ export const ContentTicket = ({ ticket, checkPin, mainColor }: ContentTicketProp
         value: '',
         comments: [
           {
-            author: 'Han Solo',
-            avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+            author: 'You',
+            avatar: <FontAwesomeIcon icon={faPaw}></FontAwesomeIcon>,
             content: <p>{comment.value}</p>,
             // datetime: moment().fromNow(),
           },
@@ -143,15 +148,12 @@ export const ContentTicket = ({ ticket, checkPin, mainColor }: ContentTicketProp
   };
 
   const likeContent = (e: any, ticket: any) => {
-    console.log(ticket);
     dispatch(
       like({
         id: ticket.id,
         like: ticket.like === true ? false : true,
       })
     );
-
-    e.target.style.color = ticket.like ? 'red' : 'black';
   };
 
   const onChange = (id: number, value: RadioChangeEvent) => {
@@ -190,7 +192,7 @@ export const ContentTicket = ({ ticket, checkPin, mainColor }: ContentTicketProp
         <ContentBox>
           <MakeTicket>
             <div>
-              <FontAwesomeIcon icon={faUserCircle}></FontAwesomeIcon>
+              <FontAwesomeIcon icon={faUserCircle} style={{ fontSize: '4vw' }}></FontAwesomeIcon>
             </div>
             <div>
               <p>관리자 1</p>
@@ -200,6 +202,7 @@ export const ContentTicket = ({ ticket, checkPin, mainColor }: ContentTicketProp
               icon={faThumbtack}
               onClick={checkPin}
               color={ticketContent.makeTop ? mainColor : ''}
+              style={{ transform: 'rotate(45deg)' }}
             ></FontAwesomeIcon>
           </MakeTicket>
           <TitleArea>
@@ -226,17 +229,21 @@ export const ContentTicket = ({ ticket, checkPin, mainColor }: ContentTicketProp
               </div>
             </>
           )}
-          <CommonStyle>
-            {ticketContent.managers && (
+          {ticketContent.managers.length > 0 && (
+            <CommonStyle>
               <>
                 <Line />
                 <FontAwesomeIconStyle icon={faUserFriends}></FontAwesomeIconStyle>
                 {ticketContent.managers.map((manager: string) => {
-                  return <span>{manager}</span>;
+                  return (
+                    <span key={manager} style={{ marginRight: 10 }}>
+                      {manager}
+                    </span>
+                  );
                 })}
               </>
-            )}
-          </CommonStyle>
+            </CommonStyle>
+          )}
           {ticketContent.content && (
             <>
               <Line />
@@ -255,7 +262,7 @@ export const ContentTicket = ({ ticket, checkPin, mainColor }: ContentTicketProp
           <Line />
           <CommonStyle>
             <FontAwesomeIconStyle
-              style={{ fontSize: 20 }}
+              style={{ fontSize: 20, color: ticketContent.like ? 'red' : 'black' }}
               onClick={(e) => likeContent(e, ticketContent)}
               icon={faHeart}
             ></FontAwesomeIconStyle>
@@ -265,7 +272,9 @@ export const ContentTicket = ({ ticket, checkPin, mainColor }: ContentTicketProp
           <>
             {comment.comments.length > 0 && <CommentList comments={comment.comments} />}
             <Comment
-              avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" alt="Han Solo" />}
+              avatar={
+                <Avatar src={<FontAwesomeIcon icon={faPaw} style={{ color: 'black' }}></FontAwesomeIcon>} alt="You" />
+              }
               content={
                 <Editor
                   onChange={handleChange}

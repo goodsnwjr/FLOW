@@ -2,7 +2,11 @@ import React, { useEffect } from 'react';
 import { chart } from './utils';
 import { useSelector } from 'react-redux';
 import { writeContent } from 'store';
-
+import styled from 'styled-components';
+const BoxStyle = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 export const ContentChart = () => {
   // const [progressArray, setProgressArray] = useState([]);
 
@@ -28,8 +32,8 @@ export const ContentChart = () => {
   }, [progress]);
 
   return (
-    <div>
+    <BoxStyle>
       <canvas id="myChart"></canvas>
-    </div>
+    </BoxStyle>
   );
 };

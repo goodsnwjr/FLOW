@@ -12,6 +12,13 @@ export const defaultColor = [
   'lightblue',
   'cornflowerblue',
 ];
+export interface projectInitState {
+  favorites: boolean;
+  id: string | number | null | undefined;
+  mainColor: string | undefined;
+  title: React.ReactNode;
+  participants: [{ name: string; auth: string }];
+}
 
 const projectsSlice = createSlice({
   name: 'projects',

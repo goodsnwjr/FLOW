@@ -1,14 +1,8 @@
-import React, { useState } from 'react';
 import Chart from 'chart.js';
-interface progressProps {
-  list?: number[];
-}
+
 export const chart = (list: number[]) => {
-  console.log(list);
   let _list = [...list];
   let total: number = _list?.reduce((a, c) => a + c);
-  console.log(total);
-  // export const chart = () => {
   Chart.pluginService.register({
     beforeDraw: function (chart: any) {
       if (chart.config.options.elements.center) {
@@ -43,28 +37,6 @@ export const chart = (list: number[]) => {
     },
   });
 
-  // interface configType {
-  //   type: string;
-  //   data: {
-  //     labels: string[];
-  //     datasets: {
-  //       data: number[];
-  //       backgroundColor: string[];
-  //       hoverBackgroundColor: string[];
-  //     }[];
-  //   };
-  //   options: {
-  //     elements: {
-  //       center: {
-  //         text: string;
-  //         color: string;
-  //         fontStyle: string;
-  //         sidePadding: number;
-  //       };
-  //     };
-  //   };
-  // }
-
   let config: any = {
     type: 'doughnut',
     data: {
@@ -98,37 +70,19 @@ export const chart = (list: number[]) => {
           sidePadding: 20, // Defualt is 20 (as a percentage)
         },
       },
-    },
-    legend: {
-      position: 'bottom',
-      display: false,
-    },
-    legendCallback: function (chart: any) {
-      const renderLabels = (chart: any) => {
-        const { data } = chart;
-        return data.datasets[0].data
-          .map(
-            (_: any, i: number) =>
-              `<li>
-                  <div id="legend-${i}-item" class="legend-item">
-                    <span style="background-color:
-                      ${data.datasets[0].backgroundColor[i]}">
-                      &nbsp;&nbsp;&nbsp;&nbsp;
-                    </span>
-                    ${data.labels[i] && `<span class="label">${data.labels[i]}: $${data.datasets[0].data[i]}</span>`}
-                  </div>
-              </li>
-            `
-          )
-          .join('');
-      };
-      return `
-        <ul class="chartjs-legend">
-          ${renderLabels(chart)}
-        </ul>`;
+      legend: {
+        position: 'right',
+        labels: {
+          boxWidth: 15,
+          boxRadius: 5,
+          padding: 20,
+        },
+      },
     },
   };
-  let aa = document.getElementById('myChart') as HTMLCanvasElement;
-  let ctx = aa.getContext('2d') as CanvasRenderingContext2D;
+  let showMyChart = document.getElementById('myChart') as HTMLCanvasElement;
+  let ctx = showMyChart.getContext('2d') as CanvasRenderingContext2D;
   let myChart = new Chart(ctx, config);
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+  myChart;
 };

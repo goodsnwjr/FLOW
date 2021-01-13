@@ -18,9 +18,11 @@ import styled from 'styled-components';
 import { Menu, Button, Modal } from 'antd';
 import { add, menuChange, selectProjects, defaultColor } from 'store';
 
+const IconStyle = styled(FontAwesomeIcon)`
+  margin-right: 15px;
+`;
+
 const SideStyle = styled.div`
-  width: 20%;
-  min-width: 11rem;
   display: inline-block;
   border-right: 1px solid gray;
   padding: 10px 20px;
@@ -36,7 +38,7 @@ export const SideNav = () => {
   const [newProject, setNewProject] = useState<string>('');
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const projectsList = useSelector(selectProjects);
-  const newProjectName = useRef<any>();
+  const newProjectName = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
 
   const showModal = () => {
@@ -63,7 +65,9 @@ export const SideNav = () => {
 
     dispatch(add(newProjectList));
     console.log(newProjectName.current);
-    newProjectName.current.value = '';
+    if (newProjectName.current !== null) {
+      newProjectName.current.value = '';
+    }
   };
 
   const onChangeMenuAll = () => {
@@ -93,21 +97,21 @@ export const SideNav = () => {
       <Menu>
         <Menu.Item onClick={onChangeMenuAll}>
           <Link to="/">
-            <FontAwesomeIcon icon={faBars} />
+            <IconStyle icon={faBars} />
           </Link>
           전체
         </Menu.Item>
         <Menu.Item>
-          <FontAwesomeIcon icon={faInbox} />
+          <IconStyle icon={faInbox} />
           미보관
         </Menu.Item>
         <Menu.Item>
-          <FontAwesomeIcon icon={faEnvelope} />
+          <IconStyle icon={faEnvelope} />
           읽지않음
         </Menu.Item>
         <Menu.Item onClick={onChangeMenuFav}>
           <Link to="/">
-            <FontAwesomeIcon icon={faStar} />
+            <IconStyle icon={faStar} />
             즐겨찾기
           </Link>
         </Menu.Item>
@@ -115,44 +119,44 @@ export const SideNav = () => {
       <Menu>
         <h3>모아보기</h3>
         <Menu.Item>
-          <FontAwesomeIcon icon={faCheck} />
+          <IconStyle icon={faCheck} />
           전체 업무
         </Menu.Item>
         <Menu.Item>
-          <FontAwesomeIcon icon={faCalendar} />
+          <IconStyle icon={faCalendar} />
           전체 일정
         </Menu.Item>
         <Menu.Item>
-          <FontAwesomeIcon icon={faArchive} />
+          <IconStyle icon={faArchive} />
           전체 파일
         </Menu.Item>
         <Menu.Item>
-          <FontAwesomeIcon icon={faBookmark} />
+          <IconStyle icon={faBookmark} />
           담아둔 글
         </Menu.Item>
         <Menu.Item>
-          <FontAwesomeIcon icon={faAt} />
+          <IconStyle icon={faAt} />
           나를 지정
         </Menu.Item>
         <Menu.Item>
-          <FontAwesomeIcon icon={faChalkboardTeacher} />내 게시물
+          <IconStyle icon={faChalkboardTeacher} />내 게시물
         </Menu.Item>
       </Menu>
       <Menu>
         <h3>보관함</h3>
         <Menu.Item>
-          <FontAwesomeIcon icon={faFolder} /> 마케팅
+          <IconStyle icon={faFolder} /> 마케팅
         </Menu.Item>
         <Menu.Item>
-          <FontAwesomeIcon icon={faFolder} />
+          <IconStyle icon={faFolder} />
           디자인
         </Menu.Item>
         <Menu.Item>
-          <FontAwesomeIcon icon={faFolder} />
+          <IconStyle icon={faFolder} />
           엔지니어링
         </Menu.Item>
         <Menu.Item>
-          <FontAwesomeIcon icon={faEyeSlash} />
+          <IconStyle icon={faEyeSlash} />
           숨김
         </Menu.Item>
       </Menu>

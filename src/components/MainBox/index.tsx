@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { SetStateAction, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux';
-import { selectMenu, selectProjects } from 'store';
+import { selectMenu, selectProjects, projectInitState } from 'store';
 import { Link } from 'react-router-dom';
 
 import { Modal } from 'antd';
@@ -15,8 +15,7 @@ import { Modal } from 'antd';
 
 interface removeProjectProps {
   removeProject: (e: any) => void;
-  checkFavorit: (e: any) => void;
-  defaultColor: Array<string>;
+  checkFavorit: (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
 }
 // interface projectItem {
 //   id: number;
@@ -46,12 +45,12 @@ const FavoritesProjectStyle = styled(FontAwesomeIcon)`
   margin-right: 10px;
 `;
 
-export const MainBox = ({ removeProject, checkFavorit, defaultColor }: removeProjectProps) => {
-  const itemBoxWrapper = useRef<any>();
+export const MainBox = ({ removeProject, checkFavorit }: removeProjectProps) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [thisProject, setThisProject] = useState<any>();
+  const [thisProject, setThisProject] = useState<SetStateAction<boolean>>(false);
 
-  const removeRef = useRef<any>();
+  const itemBoxWrapper = useRef<HTMLDivElement>(null);
+  const removeRef = useRef<HTMLInputElement>(null);
 
   const projectList = useSelector(selectProjects);
   const menu = useSelector(selectMenu);
@@ -76,7 +75,7 @@ export const MainBox = ({ removeProject, checkFavorit, defaultColor }: removePro
       {menu === 'all' ? (
         <>
           {projectList &&
-            projectList.map((items: any, index: any) => {
+            projectList.map((items: projectInitState) => {
               console.log(items.favorites);
               return (
                 <ItemBoxStyle key={items.id} color={items.mainColor} ref={itemBoxWrapper} data-id={items.id}>
@@ -107,13 +106,17 @@ export const MainBox = ({ removeProject, checkFavorit, defaultColor }: removePro
         </>
       ) : (
         projectList
-          .filter((item: any) => {
+          .filter((item: projectInitState) => {
             return item.favorites;
           })
-          .map((items: any, index: any) => {
+          .map((items: projectInitState) => {
             return (
               <ItemBoxStyle key={items.id} color={items.mainColor} ref={itemBoxWrapper} data-id={items.id}>
-                <p style={{ textAlign: 'right', lineHeight: '16px' }} onClick={(e) => showModal(e)} ref={removeRef}>
+                <p
+                  style={{ textAlign: 'right', lineHeight: '16px' }}
+                  onClick={(e: object) => showModal(e)}
+                  ref={removeRef}
+                >
                   X
                 </p>
                 <Modal

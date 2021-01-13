@@ -1,8 +1,9 @@
+/* eslint-disable array-callback-return */
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 //modules
-import { Modal } from 'antd';
+import { Modal, Radio } from 'antd';
 import { faUserCircle, faUserPlus, faCrown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
@@ -46,6 +47,7 @@ interface contentAsideProps {
   addParticipants: () => void;
   isModalVisible: boolean;
   setParticipantName: React.Dispatch<React.SetStateAction<string>>;
+  setParticipantAuth: any;
   mainColor: string;
   invite: any;
 }
@@ -56,6 +58,7 @@ export const ContentAside = ({
   handleCancel,
   showModal,
   setParticipantName,
+  setParticipantAuth,
   isModalVisible,
   mainColor,
   invite,
@@ -69,7 +72,7 @@ export const ContentAside = ({
       </Link>
       <ButtonStyle bgColor={`${mainColor}`} onClick={showModal}>
         <h3>
-          <FontAwesomeIcon icon={faUserPlus} style={{ marginRight: 10 }}></FontAwesomeIcon>참여자 초대하기
+          <FontAwesomeIcon icon={faUserPlus} style={{ margin: '10px 10px 0 0' }}></FontAwesomeIcon>참여자 초대하기
         </h3>
       </ButtonStyle>
       <Modal title="참여자 추가" visible={isModalVisible} onOk={addParticipants} onCancel={handleCancel}>
@@ -82,8 +85,16 @@ export const ContentAside = ({
           type="text"
           placeholder="참여자명"
         />
+        <Radio.Group
+          name="auth"
+          onChange={(e) => setParticipantAuth(e.target.value)}
+          style={{ marginTop: 10, display: 'block' }}
+        >
+          <Radio value={'admin'}>관리자</Radio>
+          <Radio value={'guest'}>게스트</Radio>
+        </Radio.Group>
       </Modal>
-      <ParticipantsListStyle>
+      <ParticipantsListStyle style={{ height: '84%' }}>
         <h3>전체 참여자 {Object.values(selectProject)[2].length}명</h3>
         <ul>
           <li>
@@ -95,7 +106,7 @@ export const ContentAside = ({
                 return (
                   <li key={`participant-admin-${idx}`}>
                     <FontAwesomeIcon icon={faCrown} style={{ marginRight: 10 }}></FontAwesomeIcon>
-                    {participant.name}
+                    <span style={{ verticalAlign: 'text-bottom' }}>{participant.name}</span>
                   </li>
                 );
               }
@@ -103,7 +114,7 @@ export const ContentAside = ({
         </ul>
         <ul>
           <li>
-            <h3>외부게스트</h3>
+            <h3>외부참여자</h3>
           </li>
           {selectProject &&
             Object.values(selectProject)[2].map((participant: { name: string; auth: string }, idx: number) => {
@@ -111,7 +122,7 @@ export const ContentAside = ({
                 return (
                   <li key={`participant-guest-${idx}`} className="guest">
                     <FontAwesomeIcon icon={faUserCircle} style={{ marginRight: 10 }}></FontAwesomeIcon>
-                    {participant.name}
+                    <span style={{ verticalAlign: 'text-bottom' }}>{participant.name}</span>
                   </li>
                 );
               }
