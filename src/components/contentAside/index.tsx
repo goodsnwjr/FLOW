@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MutableRefObject } from 'react';
 import { Link } from 'react-router-dom';
 
 //modules
@@ -47,7 +47,7 @@ interface contentAsideProps {
   isModalVisible: boolean;
   setParticipantName: React.Dispatch<React.SetStateAction<string>>;
   mainColor: string;
-  invite: any;
+  invite: MutableRefObject<HTMLInputElement | null>;
 }
 
 export const ContentAside = ({
