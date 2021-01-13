@@ -40,6 +40,7 @@ export const ContentWrite = ({ selectProjectId, participants, mainColor }: conte
   const [radioValue, setRadioValue] = useState('');
   const [radioValueKo, setRadioValueKo] = useState('');
   const [managers, setManagers] = useState('');
+  const [contentTextArea, setContentTextArea] = useState<string>('');
   const writeList = useSelector(writeContent);
   const dispatch = useDispatch();
   const writeInputRef = useRef<any>();
@@ -49,8 +50,9 @@ export const ContentWrite = ({ selectProjectId, participants, mainColor }: conte
   function tabChange(key: any) {
     if (key === '1') {
       workTitleInputRef.current.state.value = '';
-      console.log(workContentInputRef.current.resizableTextArea);
-      workContentInputRef.current.resizableTextArea.textArea.defaultValue = '';
+      console.log(workContentInputRef.current.resizableTextArea.textArea.innerHTML);
+      setContentTextArea('');
+      //   workContentInputRef.current.resizableTextArea.textArea.innerHTML = '';
     } else if (key === '2') {
       writeInputRef.current.state.value = '';
     }
@@ -112,6 +114,10 @@ export const ContentWrite = ({ selectProjectId, participants, mainColor }: conte
     setRadioValue(e.target.value);
   }
 
+  const workContentChange = (e: any) => {
+    setContentTextArea(e.target.innerHTML);
+  };
+
   useEffect(() => {
     writeInputRef.current.state.value = '';
   }, []);
@@ -150,7 +156,9 @@ export const ContentWrite = ({ selectProjectId, participants, mainColor }: conte
             })}
           </Select>
           <Line />
-          <WorkContentInput ref={workContentInputRef} />
+          <WorkContentInput ref={workContentInputRef} onChange={(e) => workContentChange(e)}>
+            {contentTextArea}
+          </WorkContentInput>
           <Line />
         </TabPane>
       </Tabs>

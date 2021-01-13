@@ -215,7 +215,16 @@ export const ContentTicket = ({ ticket, checkPin }: ContentTicketProps) => {
           {ticketContent.content && (
             <>
               <Line />
-              <textarea readOnly>{ticketContent.content}</textarea>
+              <div>
+                {ticketContent.content.split('\n').map((line: any) => {
+                  return (
+                    <span>
+                      {line}
+                      <br />
+                    </span>
+                  );
+                })}
+              </div>
             </>
           )}
           <Line />
@@ -225,7 +234,7 @@ export const ContentTicket = ({ ticket, checkPin }: ContentTicketProps) => {
               onClick={(e) => likeContent(e, ticketContent)}
               icon={faHeart}
             ></FontAwesomeIconStyle>
-            {!ticketContent.like && <span>1</span>}
+            {ticketContent.like && <span>1</span>}
           </CommonStyle>
           <Line />
           <>
