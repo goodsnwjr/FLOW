@@ -16,7 +16,7 @@ import { faEnvelope, faCalendar, faBookmark, faFolder } from '@fortawesome/free-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import { Menu, Button, Modal } from 'antd';
-import { add, menuChange, selectProjects } from 'store';
+import { add, menuChange, selectProjects, defaultColor } from 'store';
 
 const SideStyle = styled.div`
   width: 20%;
@@ -56,8 +56,9 @@ export const SideNav = () => {
     newProjectList.push({
       id: Math.floor(numRandom * 1000),
       title: newProject,
-      people: [],
+      participants: [],
       favorites: false,
+      mainColor: defaultColor[Math.floor(Math.random() * 10 + 1)],
     });
 
     dispatch(add(newProjectList));

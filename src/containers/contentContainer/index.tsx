@@ -1,21 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { favorite, selectProjects } from 'store';
+import { update, favorite, selectProjects, writeContent, topToggle } from 'store';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faThumbtack } from '@fortawesome/free-solid-svg-icons';
 
 //components
-import { Tabs } from 'antd';
 import { ContentChart, ContentTicket, ContentAside } from 'components';
 import { checkFavorit } from 'modules/project/favoriteProject';
-
-const { TabPane } = Tabs;
+import { ContentWrite } from 'components/contentWrite';
+import { Divider } from 'antd';
 
 const ContentStyle = styled.div`
   display: flex;
+  padding: 20px 20px;
+  box-sizing: border-box;
 
   > div:nth-child(1) {
     width: 60%;
@@ -25,9 +26,6 @@ const ContentStyle = styled.div`
   }
 
   .project-title {
-    background: #fff;
-    padding: 20px 10px;
-    text-align: left;
     h2 {
       line-height: 1;
       margin: 0;
@@ -39,23 +37,41 @@ const FavoritesProjectStyle = styled(FontAwesomeIcon)`
   margin-right: 10px;
 `;
 
-const ContentBox = styled.div`
-  width: 80%;
+interface ContentBoxProps {
+  bgColor?: string;
+}
+
+const ContentBox = styled.div<ContentBoxProps>`
+  width: 95%;
   padding: 20px;
   box-sizing: border-box;
   border-radius: 10px;
-  background: #fff;
+  background: ${(props) => (props.bgColor ? props.bgColor : '#fff')};
   margin-top: 5px;
 `;
 
-function callback(key: any) {
-  console.log(key);
-}
+const Line = styled(Divider)`
+  margin-top: 5px;
+  margin-bottom: 20px;
+`;
 
 const ContentContainer = () => {
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [participantName, setParticipantName] = useState<string>('');
+
   const projectsList = useSelector(selectProjects);
+  const writeList = useSelector(writeContent);
+
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   const productList = useSelector(selectProjects);
 
@@ -63,14 +79,35 @@ const ContentContainer = () => {
     return productList.id === Number(history.location.pathname.split('/')[1]);
   }
 
+  const addParticipants = () => {
+    dispatch(
+      update({
+        projectid: Number(history.location.pathname.split('/')[1]),
+        name: participantName,
+        auth: '게스트',
+      })
+    );
+    setIsModalVisible(false);
+  };
+
   const selectProject = productList.find(findProject);
 
-  console.log(selectProject);
+  function findWrite(writeList: any, itemId: any) {
+    return writeList.id === itemId;
+  }
+
+  const checkPin = (item: any) => {
+    console.log(item);
+    const selectWrite = writeList.find((write: any) => findWrite(write, item.id));
+    console.log(selectWrite);
+    dispatch(topToggle(selectWrite));
+  };
 
   return (
     <ContentStyle>
       <div>
-        <div className="project-title">
+        <ContentBox className="project-title" bgColor={`${selectProject.mainColor}`}>
+          {/* <ContentBox className="project-title"> */}
           <h2 data-id={selectProject.id}>
             <FavoritesProjectStyle
               style={{
@@ -80,35 +117,60 @@ const ContentContainer = () => {
               icon={faStar}
               onClick={(e) => checkFavorit(e, projectsList, dispatch, favorite)}
             ></FavoritesProjectStyle>
-            {selectProject.title}({selectProject.people.length})
+            {selectProject.title}({selectProject.participants.length})
           </h2>
-        </div>
+        </ContentBox>
         <ContentBox>
           <ContentChart />
         </ContentBox>
         <ContentBox>
-          <Tabs defaultActiveKey="1" onChange={callback}>
-            <TabPane tab="글쓰기" key="1">
-              Content of Tab Pane 1
-            </TabPane>
-            <TabPane tab="할 일" key="2">
-              Content of Tab Pane 2
-            </TabPane>
-          </Tabs>
+          <ContentWrite
+            selectProjectId={selectProject.id}
+            participants={selectProject.participants}
+            mainColor={selectProject.mainColor}
+          />
         </ContentBox>
         <ContentBox>
           <h4>상단고정글</h4>
-          <ul>
-            <li>
-              [업무] B2B매거진 대리점현황 오류 <span>진행</span>
-            </li>
-          </ul>
+          {writeList &&
+            writeList.map((item: any) => {
+              return (
+                item.makeTop && (
+                  <>
+                    <span style={{ fontSize: 19, fontWeight: 'bold' }}>[{item.type}]</span>
+                    &nbsp;
+                    <span style={{ fontSize: 17 }}>{item.title}</span>
+                    <FontAwesomeIcon
+                      style={{ float: 'right', marginTop: 7 }}
+                      icon={faThumbtack}
+                      onClick={() => checkPin(item)}
+                    ></FontAwesomeIcon>
+                    <span style={{ fontSize: 17, paddingRight: 15, float: 'right' }}>{item.statusKo}</span>
+                    <Line />
+                  </>
+                )
+              );
+            })}
         </ContentBox>
-        <ContentBox>
-          <ContentTicket />
-        </ContentBox>
+        {writeList.length > 1 ? (
+          writeList.map((ticket: any) => {
+            return <ContentTicket checkPin={() => checkPin(ticket)} ticket={ticket} />;
+          })
+        ) : (
+          <ContentBox style={{ textAlign: 'center', padding: '40px 0' }}>
+            <div>등록된 게시글이 없습니다.</div>
+          </ContentBox>
+        )}
       </div>
-      {/* <ContentAside selectProject={selectProject} /> */}
+      <ContentAside
+        selectProject={selectProject}
+        addParticipants={addParticipants}
+        handleCancel={handleCancel}
+        showModal={showModal}
+        isModalVisible={isModalVisible}
+        setParticipantName={setParticipantName}
+        mainColor={selectProject.mainColor}
+      />
     </ContentStyle>
   );
 };

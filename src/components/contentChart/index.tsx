@@ -1,5 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { chart } from './utils';
 
 export const ContentChart = () => {
-  return <div></div>;
+  useEffect(() => {
+    chart();
+  }, []);
+  return (
+    <div>
+      <canvas id="myChart"></canvas>
+    </div>
+  );
 };

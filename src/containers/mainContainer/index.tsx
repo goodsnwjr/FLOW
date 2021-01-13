@@ -1,12 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { favorite, remove, selectProjects } from 'store';
+import { favorite, remove, selectProjects, defaultColor } from 'store';
 
 //components
 import { MainBox } from 'components';
 import { checkFavorit } from 'modules/project/favoriteProject';
 
-export const MainContainer = () => {
+const MainContainer = () => {
   const projectsList = useSelector(selectProjects);
   const dispatch = useDispatch();
 
@@ -19,7 +19,11 @@ export const MainContainer = () => {
     dispatch(remove(removeProjectList));
   };
   return (
-    <MainBox removeProject={removeProject} checkFavorit={(e) => checkFavorit(e, projectsList, dispatch, favorite)} />
+    <MainBox
+      removeProject={removeProject}
+      defaultColor={defaultColor}
+      checkFavorit={(e) => checkFavorit(e, projectsList, dispatch, favorite)}
+    />
   );
 };
 
