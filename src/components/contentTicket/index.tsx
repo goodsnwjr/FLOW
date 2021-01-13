@@ -213,7 +213,16 @@ export const ContentTicket = ({ ticket, checkPin }: ContentTicketProps) => {
           {ticketContent.content && (
             <>
               <Line />
-              <div>{ticketContent.content}</div>
+              <div>
+                {ticketContent.content.split('\n').map((line: any) => {
+                  return (
+                    <span>
+                      {line}
+                      <br />
+                    </span>
+                  );
+                })}
+              </div>
             </>
           )}
           <Line />
