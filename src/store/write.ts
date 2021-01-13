@@ -34,10 +34,17 @@ const writeSlice = createSlice({
         _content.status = value;
       }
     },
+    topToggle: (state, action) => {
+      const { id } = action.payload;
+      let writeList: any = state.content.find((x: any) => x.id === id);
+      if (writeList) {
+        writeList.makeTop = writeList.makeTop ? false : true;
+      }
+    },
   },
 });
 
-export const { write, like, changeStatus } = writeSlice.actions;
+export const { write, like, changeStatus, topToggle } = writeSlice.actions;
 export const writeContent = (state: any) => state.write.content;
 
 export default writeSlice.reducer;

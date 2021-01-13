@@ -10,6 +10,15 @@ import { RadioChangeEvent } from 'antd/lib/radio';
 
 const { TextArea } = Input;
 
+const ContentBox = styled.div`
+  width: 95%;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background: #fff;
+  margin-top: 5px;
+`;
+
 const FontAwesomeIconStyle = styled(FontAwesomeIcon)`
   margin-right: 15px;
 `;
@@ -155,7 +164,7 @@ export const ContentTicket = ({ ticket, checkPin }: ContentTicketProps) => {
   return (
     <>
       {ticketContent.title !== '' && (
-        <>
+        <ContentBox>
           <MakeTicket>
             <div>
               <FontAwesomeIcon icon={faUserCircle}></FontAwesomeIcon>
@@ -227,7 +236,7 @@ export const ContentTicket = ({ ticket, checkPin }: ContentTicketProps) => {
               }
             />
           </>
-        </>
+        </ContentBox>
       )}
     </>
   );

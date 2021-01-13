@@ -38,6 +38,7 @@ interface contentAsideProps {
 export const ContentWrite = ({ selectProjectId, participants, mainColor }: contentAsideProps) => {
   const [tabStatus, SetTabStatus] = useState<string>('1');
   const [radioValue, setRadioValue] = useState('');
+  const [radioValueKo, setRadioValueKo] = useState('');
   const [managers, setManagers] = useState('');
   const writeList = useSelector(writeContent);
   const dispatch = useDispatch();
@@ -65,18 +66,19 @@ export const ContentWrite = ({ selectProjectId, participants, mainColor }: conte
     if (tabStatus === '1') {
       let _writeInput = writeInputRef.current.state.value;
       if (!_writeInput) return;
-      newWriteList.push({ title: _writeInput, type: 'write', makeTop: false, id: newWriteList.length });
+      newWriteList.push({ title: _writeInput, type: '일반', makeTop: false, id: newWriteList.length });
       _writeInput = '';
     } else if (tabStatus === '2') {
       let _workTitleInput = workTitleInputRef.current.state.value;
-      let _workContentInput = workContentInputRef.current.resizableTextArea.textArea.outerHTML;
+      let _workContentInput = workContentInputRef.current.resizableTextArea.textArea.defaultValue;
       if (!_workTitleInput) return;
       newWriteList.push({
         title: _workTitleInput,
         status: radioValue,
+        statusKo: radioValueKo,
         managers: managers,
         content: _workContentInput,
-        type: 'work',
+        type: '업무',
         makeTop: false,
         id: newWriteList.length,
         like: 0,
@@ -88,6 +90,25 @@ export const ContentWrite = ({ selectProjectId, participants, mainColor }: conte
   };
 
   function radioOnChange(e: any) {
+    switch (e.target.value) {
+      case 'request':
+        setRadioValueKo('요청');
+        break;
+      case 'progress':
+        setRadioValueKo('진행');
+        break;
+      case 'feedback':
+        setRadioValueKo('피드백');
+        break;
+      case 'completion':
+        setRadioValueKo('완료');
+        break;
+      case 'pending':
+        setRadioValueKo('보류');
+        break;
+      default:
+        setRadioValueKo('요청');
+    }
     setRadioValue(e.target.value);
   }
 
