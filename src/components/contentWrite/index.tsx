@@ -68,7 +68,7 @@ export const ContentWrite = ({ participants, mainColor, projectId }: contentAsid
     const newWriteList = [...writeList];
     if (tabStatus === '1') {
       let _writeInput = writeInputRef.current.state.value;
-      if (!_writeInput) return message;
+      if (!_writeInput) return message.error('업무명을 입력하세요.');
       newWriteList.push({
         projectId: projectId,
         title: _writeInput,
@@ -80,7 +80,28 @@ export const ContentWrite = ({ participants, mainColor, projectId }: contentAsid
       writeInputRef.current.state.value = '';
     } else if (tabStatus === '2') {
       let _workTitleInput = workTitleInputRef.current.state.value;
-      if (!_workTitleInput || !radioValue || !contentTextArea) return;
+      if (!_workTitleInput)
+        return message.error({
+          content: '업무명을 입력하세요.',
+          style: {
+            marginTop: '35vh',
+          },
+        });
+      if (!radioValue)
+        return message.error({
+          content: '상태를 입력하세요.',
+          style: {
+            marginTop: '35vh',
+          },
+        });
+      if (!contentTextArea)
+        return message.error({
+          content: '업무내용을 입력하세요.',
+          style: {
+            marginTop: '35vh',
+          },
+        });
+
       newWriteList.push({
         projectId: projectId,
         title: _workTitleInput,

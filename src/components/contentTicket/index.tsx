@@ -93,7 +93,7 @@ const Editor = ({ onChange, onSubmit, submitting, value }: editorProps) => (
 );
 
 interface commentState {
-  comments: Array<{}>;
+  comments: object[];
   submitting: boolean;
   value: string;
 }

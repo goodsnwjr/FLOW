@@ -15,7 +15,7 @@ interface ContentChartProps {
 export const ContentChart = ({ projectId }: ContentChartProps) => {
   const progress = useSelector(writeContent);
 
-  const statuslength = (list: Array<string>, type: string) => {
+  const statuslength = (list: string[], type: string) => {
     return list.filter((n) => n === type).length;
   };
 
@@ -39,7 +39,7 @@ export const ContentChart = ({ projectId }: ContentChartProps) => {
 
   return (
     <BoxStyle>
-      <canvas id="myChart"></canvas>
+      <canvas id="myChart" style={{ height: '35vh', width: '35vh' }}></canvas>
     </BoxStyle>
   );
 };
