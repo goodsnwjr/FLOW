@@ -195,10 +195,11 @@ const ContentContainer = () => {
           writeList
             .filter((list: any) => list.projectId === Number(history.location.pathname.split('/')[1]))
             .map((ticket: ticketProps, idx: number) => {
+              console.log(ticket);
               return (
                 <ContentTicket
                   key={`ticket-${idx}`}
-                  checkPin={() => checkPin(ticket, 'plus')}
+                  checkPin={() => checkPin(ticket, ticket.makeTop ? 'minus' : 'plus')}
                   ticket={ticket}
                   mainColor={selectProject.mainColor}
                 />
