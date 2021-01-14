@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from 'react';
-
 import styled from 'styled-components';
 import { Comment, Avatar, Form, Button, List, Input, Radio, Divider } from 'antd';
 import { CommentProps } from 'antd/lib/comment';
@@ -261,7 +260,7 @@ export const ContentTicket = ({ ticket, checkPin, mainColor }: ContentTicketProp
               <div>
                 {ticketContent.content.split('\n').map((line: string) => {
                   return (
-                    <span>
+                    <span key={line}>
                       {line}
                       <br />
                     </span>

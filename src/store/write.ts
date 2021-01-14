@@ -23,14 +23,14 @@ const writeSlice = createSlice({
     },
     like: (state, action) => {
       const { id, like } = action.payload;
-      let _content = state.content.find((list) => list.id === id);
+      let _content: any = state.content.find((list: any) => list.id === id);
       if (_content) {
         _content.like = like;
       }
     },
     changeStatus: (state, action) => {
       const { id, value, valueKo } = action.payload;
-      let _content = state.content.find((list) => list.id === id);
+      let _content: any = state.content.find((list: any) => list.id === id);
       if (_content) {
         _content.status = value;
         _content.statusKo = valueKo;
