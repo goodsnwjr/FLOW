@@ -74,10 +74,11 @@ export const chart = (list: number[]) => {
         position: 'right',
         labels: {
           boxWidth: 15,
-          boxRadius: 5,
           padding: 20,
+          fontSize: 15,
         },
       },
+      responsive: false,
     },
   };
   let showMyChart = document.getElementById('myChart') as HTMLCanvasElement;

@@ -179,7 +179,7 @@ const ContentContainer = () => {
                         float: 'right',
                         padding: '0 10px',
                         borderRadius: 10,
-                        border: '1px solid rgba(0,0,0,.15)',
+                        border: item.statusKo ? '1px solid rgba(0,0,0,.15)' : 'none',
                       }}
                     >
                       {item.statusKo}
