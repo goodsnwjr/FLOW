@@ -15,14 +15,20 @@ import { Divider } from 'antd';
 
 const ContentStyle = styled.div`
   display: flex;
-  padding: 20px 20px;
+  padding: 20px 20px 20px 0;
   box-sizing: border-box;
+  overflow-y: scroll;
 
   > div:nth-child(1) {
-    width: 60%;
+    width: 70%;
+    height: 100%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   > div:nth-child(2) {
-    width: 40%;
+    width: 30%;
   }
 
   .project-title {
@@ -70,6 +76,7 @@ interface ticketProps {
 const ContentContainer = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [participantName, setParticipantName] = useState<string>('');
+  const [participantAuth, setParticipantAuth] = useState<string>('');
   const [makeTopLength, setMakeTopLength] = useState<number>(0);
 
   const projectsList = useSelector(selectProjects);
@@ -99,7 +106,7 @@ const ContentContainer = () => {
       update({
         projectid: Number(history.location.pathname.split('/')[1]),
         name: participantName,
-        auth: '게스트',
+        auth: participantAuth,
       })
     );
     setIsModalVisible(false);
@@ -119,6 +126,7 @@ const ContentContainer = () => {
     const selectWrite = writeList.find((write: { id: number }) => findWrite(write, item.id));
     dispatch(topToggle(selectWrite));
   };
+
   return (
     <ContentStyle>
       <div>
@@ -136,10 +144,14 @@ const ContentContainer = () => {
           </h2>
         </ContentBox>
         <ContentBox>
-          <ContentChart />
+          <ContentChart projectId={Number(history.location.pathname.split('/')[1])} />
         </ContentBox>
         <ContentBox>
-          <ContentWrite participants={selectProject.participants} mainColor={selectProject.mainColor} />
+          <ContentWrite
+            participants={selectProject.participants}
+            mainColor={selectProject.mainColor}
+            projectId={Number(history.location.pathname.split('/')[1])}
+          />
         </ContentBox>
 
         {makeTopLength > 0 && (
@@ -155,12 +167,23 @@ const ContentContainer = () => {
                     &nbsp;
                     <span style={{ fontSize: 17 }}>{item.title}</span>
                     <FontAwesomeIcon
-                      style={{ float: 'right', marginTop: 7 }}
+                      style={{ float: 'right', marginTop: 7, transform: 'rotate(45deg)' }}
                       icon={faThumbtack}
                       onClick={() => checkPin(item, 'minus')}
                       color={item.makeTop ? selectProject.mainColor : ''}
                     ></FontAwesomeIcon>
-                    <span style={{ fontSize: 17, paddingRight: 15, float: 'right' }}>{item.statusKo}</span>
+                    <span
+                      style={{
+                        fontSize: 17,
+                        marginRight: 15,
+                        float: 'right',
+                        padding: '0 10px',
+                        borderRadius: 10,
+                        border: '1px solid rgba(0,0,0,.15)',
+                      }}
+                    >
+                      {item.statusKo}
+                    </span>
                     <Line />
                   </div>
                 )
@@ -169,17 +192,18 @@ const ContentContainer = () => {
           </ContentBox>
         )}
         {writeList.length > 1 ? (
-          writeList.map((ticket: ticketProps, idx: number) => {
-            console.log(ticket);
-            return (
-              <ContentTicket
-                key={`ticket-${idx}`}
-                checkPin={() => checkPin(ticket, 'plus')}
-                ticket={ticket}
-                mainColor={selectProject.mainColor}
-              />
-            );
-          })
+          writeList
+            .filter((list: any) => list.projectId === Number(history.location.pathname.split('/')[1]))
+            .map((ticket: ticketProps, idx: number) => {
+              return (
+                <ContentTicket
+                  key={`ticket-${idx}`}
+                  checkPin={() => checkPin(ticket, 'plus')}
+                  ticket={ticket}
+                  mainColor={selectProject.mainColor}
+                />
+              );
+            })
         ) : (
           <ContentBox style={{ textAlign: 'center', padding: '40px 0' }}>
             <div>등록된 게시글이 없습니다.</div>
@@ -193,6 +217,7 @@ const ContentContainer = () => {
         showModal={showModal}
         isModalVisible={isModalVisible}
         setParticipantName={setParticipantName}
+        setParticipantAuth={setParticipantAuth}
         mainColor={selectProject.mainColor}
         invite={invite}
       />

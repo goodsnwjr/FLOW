@@ -12,6 +12,13 @@ export const defaultColor = [
   'lightblue',
   'cornflowerblue',
 ];
+export interface projectInitState {
+  favorites: boolean;
+  id: string | number | null | undefined;
+  mainColor: string | undefined;
+  title: React.ReactNode;
+  participants: [{ name: string; auth: string }];
+}
 
 const projectsSlice = createSlice({
   name: 'projects',
@@ -69,11 +76,9 @@ const projectsSlice = createSlice({
   },
   reducers: {
     add: (state, action) => {
-      console.log(state.projectList);
       state.projectList = action.payload;
     },
     remove: (state, action) => {
-      console.log(state.projectList);
       state.projectList = action.payload;
     },
     update: (state, action) => {

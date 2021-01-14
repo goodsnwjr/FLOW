@@ -7,8 +7,6 @@ import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import { routes } from 'routes';
 
 function App() {
-  console.log(routes);
-
   return (
     <BrowserRouter>
       <Switch>

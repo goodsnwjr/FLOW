@@ -1,4 +1,4 @@
-import { Input, Tabs, Button, Radio, Divider, Select } from 'antd';
+import { Input, Tabs, Button, Radio, Divider, Select, message } from 'antd';
 import { PaperClipOutlined, FileImageOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,13 +32,14 @@ const Line = styled(Divider)`
 interface contentAsideProps {
   mainColor: string;
   participants: any;
+  projectId: number;
 }
 
-export const ContentWrite = ({ participants, mainColor }: contentAsideProps) => {
+export const ContentWrite = ({ participants, mainColor, projectId }: contentAsideProps) => {
   const [tabStatus, SetTabStatus] = useState<string>('1');
-  const [radioValue, setRadioValue] = useState('');
-  const [radioValueKo, setRadioValueKo] = useState('');
-  const [managers, setManagers] = useState([]);
+  const [radioValue, setRadioValue] = useState<string>('');
+  const [radioValueKo, setRadioValueKo] = useState<string>('');
+  const [managers, setManagers] = useState<string[]>([]);
   const [contentTextArea, setContentTextArea] = useState<string>('');
   const writeList = useSelector(writeContent);
   const dispatch = useDispatch();
@@ -49,6 +50,7 @@ export const ContentWrite = ({ participants, mainColor }: contentAsideProps) => 
   function tabChange(key: any) {
     if (key === '1') {
       workTitleInputRef.current.state.value = '';
+
       setContentTextArea('');
       setRadioValue('');
       setManagers([]);
@@ -58,7 +60,7 @@ export const ContentWrite = ({ participants, mainColor }: contentAsideProps) => 
     SetTabStatus(key);
   }
 
-  function handleChange(value: any) {
+  function handleChange(value: string[]) {
     setManagers(value);
   }
 
@@ -66,15 +68,21 @@ export const ContentWrite = ({ participants, mainColor }: contentAsideProps) => 
     const newWriteList = [...writeList];
     if (tabStatus === '1') {
       let _writeInput = writeInputRef.current.state.value;
-      if (!_writeInput) return;
-      newWriteList.push({ title: _writeInput, type: '일반', makeTop: false, id: newWriteList.length, like: false });
+      if (!_writeInput) return message;
+      newWriteList.push({
+        projectId: projectId,
+        title: _writeInput,
+        type: '일반',
+        makeTop: false,
+        id: newWriteList.length,
+        like: false,
+      });
       writeInputRef.current.state.value = '';
     } else if (tabStatus === '2') {
       let _workTitleInput = workTitleInputRef.current.state.value;
-      //   let _workContentInput = workContentInputRef.current.resizableTextArea.textArea.defaultValue;
-
       if (!_workTitleInput || !radioValue || !contentTextArea) return;
       newWriteList.push({
+        projectId: projectId,
         title: _workTitleInput,
         status: radioValue,
         statusKo: radioValueKo,
@@ -140,11 +148,11 @@ export const ContentWrite = ({ participants, mainColor }: contentAsideProps) => 
           <WorkTitleInput placeholder="업무명을 입력하세요" ref={workTitleInputRef} />
           <Line />
           <Radio.Group name="progress" buttonStyle="solid" onChange={(e) => radioOnChange(e)} value={radioValue}>
-            <Radio value={'request'}>요청</Radio>
-            <Radio value={'progress'}>진행</Radio>
-            <Radio value={'feedback'}>피드백</Radio>
-            <Radio value={'completion'}>완료</Radio>
-            <Radio value={'pending'}>보류</Radio>
+            <Radio.Button value={'request'}>요청</Radio.Button>
+            <Radio.Button value={'progress'}>진행</Radio.Button>
+            <Radio.Button value={'feedback'}>피드백</Radio.Button>
+            <Radio.Button value={'completion'}>완료</Radio.Button>
+            <Radio.Button value={'pending'}>보류</Radio.Button>
           </Radio.Group>
           <Line />
           <Select
@@ -156,7 +164,7 @@ export const ContentWrite = ({ participants, mainColor }: contentAsideProps) => 
             dropdownStyle={{ width: '30px' }}
             value={managers}
           >
-            {participants.map((item: any, index: number) => {
+            {participants.map((item: { name: string }, index: number) => {
               return (
                 <Option value={item.name} key={index}>
                   {item.name}

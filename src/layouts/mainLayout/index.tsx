@@ -56,8 +56,6 @@ const MainLayout = ({ children }: Props) => {
   }
 
   const selectProject = projectList.find(findProject);
-  console.log(projectList);
-  console.log(selectProject);
   return (
     <>
       <HeaderStyle>
@@ -107,7 +105,14 @@ const MainLayout = ({ children }: Props) => {
         </ul>
       </HeaderStyle>
       <Layout style={{ display: 'block' }}>
-        <Content style={{ display: 'grid', gridTemplateColumns: '13% 87%', width: '100%' }}>
+        <Content
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '13% 87%',
+            width: '100%',
+            height: 'calc(100vh - 64px)',
+          }}
+        >
           <SideNav />
           {children}
         </Content>
