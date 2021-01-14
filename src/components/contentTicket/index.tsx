@@ -239,7 +239,7 @@ export const ContentTicket = ({ ticket, checkPin, mainColor }: ContentTicketProp
               </div>
             </>
           )}
-          {ticketContent.managers.length > 0 && (
+          {ticketContent.managers && ticketContent.managers.length > 0 && (
             <CommonStyle>
               <>
                 <Line />

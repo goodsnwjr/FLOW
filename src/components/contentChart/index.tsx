@@ -35,7 +35,7 @@ export const ContentChart = ({ projectId }: ContentChartProps) => {
 
     let progressArray = [requestLength, progressLength, feedbackLength, completionLength, pendingLength];
     chart(progressArray);
-  }, [progress]);
+  }, [progress, projectId]);
 
   return (
     <BoxStyle>

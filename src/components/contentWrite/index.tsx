@@ -1,4 +1,4 @@
-import { Input, Tabs, Button, Radio, Divider, Select } from 'antd';
+import { Input, Tabs, Button, Radio, Divider, Select, message } from 'antd';
 import { PaperClipOutlined, FileImageOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -68,7 +68,7 @@ export const ContentWrite = ({ participants, mainColor, projectId }: contentAsid
     const newWriteList = [...writeList];
     if (tabStatus === '1') {
       let _writeInput = writeInputRef.current.state.value;
-      if (!_writeInput) return;
+      if (!_writeInput) return message;
       newWriteList.push({
         projectId: projectId,
         title: _writeInput,
